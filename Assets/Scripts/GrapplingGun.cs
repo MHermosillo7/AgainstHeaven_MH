@@ -55,6 +55,8 @@ namespace HeavenAndHell
         private void Start()
         {
             grappleRope = GetComponentInChildren<GrapplingRope>();
+            camera = FindObjectOfType<Camera>();
+
             grappleRope.enabled = false;
             joint2D.enabled = false;
         }

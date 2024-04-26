@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HeavenAndHell
+namespace Heaven
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Player : MonoBehaviour
@@ -108,7 +108,7 @@ namespace HeavenAndHell
         }
         void MoveAir(Vector2 moveDirection)
         {
-            rb.AddForce(moveDirection / airResistance, ForceMode2D.Force);
+            rb.AddForce(moveDirection * Time.deltaTime, ForceMode2D.Force);
         }
         private Vector2 GetMoveInput()
         {
@@ -128,7 +128,7 @@ namespace HeavenAndHell
         private void Jump()
         {
             isGrounded = false;
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb.AddForce((Vector2.up * jumpForce), ForceMode2D.Impulse);
             jumpsLeft = 0;
         }
 

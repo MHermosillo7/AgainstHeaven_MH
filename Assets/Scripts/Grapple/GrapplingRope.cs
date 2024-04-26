@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HeavenAndHell
+namespace Heaven
 {
     public class GrapplingRope : MonoBehaviour
     {

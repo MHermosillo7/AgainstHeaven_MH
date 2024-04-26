@@ -1,25 +1,26 @@
 using UnityEngine;
 
-namespace HeavenAndHell
+namespace Heaven
 {
     [RequireComponent(typeof(Collider2D))]
-    public class RespawnPlayer : MonoBehaviour
+    public class Checkpoint : MonoBehaviour
     {
-        //ATTACH TO CAMERA
         Player player;
-        Collider2D collider;
+
+        public Transform checkpointPos;
+
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             player = FindObjectOfType<Player>();
-            collider = GetComponent<Collider2D>();
+            checkpointPos = GetComponentInChildren<Transform>();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                player.Respawn();
+                player.lastCheckpoint = checkpointPos.position;
             }
         }
     }

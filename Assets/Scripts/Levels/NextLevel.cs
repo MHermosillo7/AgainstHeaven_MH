@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HeavenAndHell
+namespace Heaven
 {
     [RequireComponent(typeof(Collider2D))]
     public class NextLevel : MonoBehaviour

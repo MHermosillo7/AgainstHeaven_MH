@@ -1,8 +1,9 @@
 using UnityEngine;
 
-namespace HeavenAndHell
+namespace Heaven
 {
-    public class GroundDetect : MonoBehaviour
+    [RequireComponent(typeof(Collider2D))]
+    public class WallDetect : MonoBehaviour
     {
         Player player;
 
@@ -14,15 +15,16 @@ namespace HeavenAndHell
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Ground"))
+            if (other.gameObject.CompareTag("Wall"))
             {
-                player.isGrounded = true;
-                player.jumpsLeft += 1;
+                player.touchWall = true;
+                player.rb.gravityScale = .8f;
             }
         }
         private void OnCollisionExit2D(Collision2D other)
         {
-            player.isGrounded = false;
+            player.touchWall = false;
+            player.rb.gravityScale = 1f;
         }
     }
 }

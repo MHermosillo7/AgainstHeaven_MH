@@ -16,14 +16,18 @@ namespace Heaven
         {
             if (other.gameObject.CompareTag("Ground"))
             {
-                Debug.Log("Grounded");
                 player.isGrounded = true;
                 player.jumpsLeft += 1;
+                if(player.jumpBufferTime > 0)
+                {
+                    player.Jump();
+                }
             }
         }
         private void OnCollisionExit2D(Collision2D other)
         {
             player.isGrounded = false;
+            player.substractBufferTime = true;
         }
     }
 }

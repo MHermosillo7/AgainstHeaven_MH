@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Heaven
@@ -14,24 +16,30 @@ namespace Heaven
 
         [Header("Forces:")]
         public float jumpForce = 6f;
+        public float wallJumpForce = 10f;
         public float moveSpeed = 0.5f;
-        public float dashSpeed = 1f;
-        public float fallSpeed = 0.4f;
+        public float slideSpeed = .2f;
         public float airResistance = 1f;
 
         [Header("State:")]
         public bool isGrounded;
         public bool touchWall;
         public bool stopped;
+        public bool canMove;
 
         [Header("Vectors")]
         public Vector3 lastCheckpoint;
         Vector2 facingDirection;
         Vector2 moveDirection;
 
+        [Header("Jump Buffer")]
+        [SerializeField] float holdInputTimer = 0.1f;
+        public float jumpBufferTime;
+        public bool substractBufferTime;
+
         [Header("Others:")]
-        public float jumpsLeft = 1;
         [SerializeField] float maxSpeed = 10f;
+        public float jumpsLeft = 1;
 
         private void Awake()
         {
@@ -41,6 +49,7 @@ namespace Heaven
             sprite = GetComponent<SpriteRenderer>();
             aim = GameObject.FindGameObjectWithTag("Aim");
 
+            canMove = true;
             lastCheckpoint = transform.position;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
@@ -48,21 +57,25 @@ namespace Heaven
         // Update is called once per frame
         void Update()
         {
+            //Rotate player according to velocity
+            //or aim direction
             RotatePlayer();
+
+            //Set velocity limit
             if (rb.velocity.magnitude >= maxSpeed)
             {
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
             }
 
-            if (isGrounded)
-            {
-                MoveGround(GetMoveInput());
-            }
-            else MoveAir(GetMoveInput());
+            //Control forces applied to player when
+            //moving horizontally depending on state isGrounded
+            MoveGround(GetMoveInput());
 
+            //Control whether to jump or wall jump depending on
+            //conditions or hold input for short time
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if(jumpsLeft >= 1 && isGrounded == true)
+                if(jumpsLeft >= 1 && isGrounded == true || jumpsLeft >= 1 && jumpBufferTime > 0)
                 {
                     Jump();
                 }
@@ -70,7 +83,26 @@ namespace Heaven
                 {
                     WallJump();
                 }
+                else
+                {
+                    jumpBufferTime = holdInputTimer;
+                }
             }
+            //Control buffer time
+            if (substractBufferTime)
+            {
+                jumpBufferTime -= Time.deltaTime;
+            }
+            if (jumpBufferTime <= 0)
+            {
+                substractBufferTime = false;
+            }
+
+            if (touchWall)
+            {
+                WallSlide();
+            }
+            //Set animator values to player equivalents
             if (animator)
             {
                 animator.SetFloat("XVelocity", rb.velocity.x);
@@ -100,15 +132,12 @@ namespace Heaven
             {
                 sprite.flipX = true;
             }
-            
         }
-        private void MoveGround(Vector2 moveDirection)
+        private void MoveGround(Vector2 direction)
         {
-            rb.velocity = moveDirection;
-        }
-        void MoveAir(Vector2 moveDirection)
-        {
-            rb.AddForce(moveDirection * Time.deltaTime, ForceMode2D.Force);
+            if (!canMove) return;
+
+            rb.velocity = (new Vector2(direction.x * moveSpeed, rb.velocity.y));
         }
         private Vector2 GetMoveInput()
         {
@@ -125,18 +154,33 @@ namespace Heaven
 
 
         }
-        private void Jump()
+        public void Jump()
         {
             isGrounded = false;
-            rb.AddForce((Vector2.up * jumpForce), ForceMode2D.Impulse);
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.velocity += Vector2.up * jumpForce;
             jumpsLeft = 0;
         }
 
-        void WallJump()
+        public void WallJump()
         {
-            rb.AddForce((facingDirection + Vector2.up) * jumpForce / 1.2f, 
-                ForceMode2D.Impulse);
+            if (!canMove) return;
+
+            StopCoroutine(DisableMovement(0));
+            StartCoroutine(DisableMovement(.1f));
+
+            rb.velocity += ((facingDirection * wallJumpForce + Vector2.up) * jumpForce);
             touchWall = false;
+        }
+        void WallSlide()
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
+        }
+        IEnumerator DisableMovement(float time)
+        {
+            canMove = false;
+            yield return new WaitForSeconds(time);
+            canMove = true;
         }
         public void Respawn()
         {

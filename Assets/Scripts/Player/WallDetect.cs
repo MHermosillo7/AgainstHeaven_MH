@@ -18,7 +18,11 @@ namespace Heaven
             if (other.gameObject.CompareTag("Wall"))
             {
                 player.touchWall = true;
-                player.rb.gravityScale = .8f;
+                
+                if(player.jumpBufferTime > 0)
+                {
+                    player.WallJump();
+                }
             }
         }
         private void OnCollisionExit2D(Collision2D other)

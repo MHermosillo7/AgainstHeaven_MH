@@ -5,11 +5,13 @@ namespace Heaven
     public class GroundDetect : MonoBehaviour
     {
         Player player;
+        PlayerJump playerJump;
 
         // Start is called before the first frame update
         void Start()
         {
             player = FindObjectOfType<Player>();
+            playerJump = FindObjectOfType<PlayerJump>();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -17,17 +19,18 @@ namespace Heaven
             if (other.gameObject.CompareTag("Ground"))
             {
                 player.isGrounded = true;
-                player.jumpsLeft += 1;
-                if(player.jumpBufferTime > 0)
+                playerJump.jumpsLeft += 1;
+
+                if(playerJump.jumpBufferTime > 0 && playerJump.jumpsLeft > 0)
                 {
-                    player.Jump();
+                    playerJump.Jump();
                 }
             }
         }
         private void OnCollisionExit2D(Collision2D other)
         {
             player.isGrounded = false;
-            player.substractBufferTime = true;
+            playerJump.substractBufferTime = true;
         }
     }
 }

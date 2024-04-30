@@ -13,8 +13,8 @@ namespace Heaven
         // Start is called before the first frame update
         void Start()
         {
-            gun = GetComponentInChildren<GrapplingGun>();
-            rope = GetComponentInChildren<GrapplingRope>();
+            gun = FindObjectOfType<GrapplingGun>();
+            rope = FindObjectOfType<GrapplingRope>();
         }
 
         // Update is called once per frame

@@ -9,7 +9,7 @@ namespace Heaven
         // Start is called before the first frame update
         void Awake()
         {
-            gun = GetComponentInChildren<GrapplingGun>();
+            gun = FindObjectOfType<GrapplingGun>();
         }
 
         // Update is called once per frame

@@ -1,5 +1,3 @@
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Heaven
@@ -15,31 +13,19 @@ namespace Heaven
         GameObject aim;
 
         [Header("Forces:")]
-        public float jumpForce = 6f;
-        public float wallJumpForce = 10f;
-        public float moveSpeed = 0.5f;
-        public float slideSpeed = .2f;
-        public float airResistance = 1f;
+        [SerializeField] float moveSpeed = 0.5f;
+        [SerializeField] float maxSpeed = 10f;
 
         [Header("State:")]
         public bool isGrounded;
-        public bool touchWall;
         public bool stopped;
         public bool canMove;
 
         [Header("Vectors")]
         public Vector3 lastCheckpoint;
-        Vector2 facingDirection;
+        public Vector2 facingDirection;
         Vector2 moveDirection;
-
-        [Header("Jump Buffer")]
-        [SerializeField] float holdInputTimer = 0.1f;
-        public float jumpBufferTime;
-        public bool substractBufferTime;
-
-        [Header("Others:")]
-        [SerializeField] float maxSpeed = 10f;
-        public float jumpsLeft = 1;
+        
 
         private void Awake()
         {
@@ -71,37 +57,6 @@ namespace Heaven
             //moving horizontally depending on state isGrounded
             MoveGround(GetMoveInput());
 
-            //Control whether to jump or wall jump depending on
-            //conditions or hold input for short time
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if(jumpsLeft >= 1 && isGrounded == true || jumpsLeft >= 1 && jumpBufferTime > 0)
-                {
-                    Jump();
-                }
-                else if (touchWall == true)
-                {
-                    WallJump();
-                }
-                else
-                {
-                    jumpBufferTime = holdInputTimer;
-                }
-            }
-            //Control buffer time
-            if (substractBufferTime)
-            {
-                jumpBufferTime -= Time.deltaTime;
-            }
-            if (jumpBufferTime <= 0)
-            {
-                substractBufferTime = false;
-            }
-
-            if (touchWall)
-            {
-                WallSlide();
-            }
             //Set animator values to player equivalents
             if (animator)
             {
@@ -141,7 +96,7 @@ namespace Heaven
         }
         private Vector2 GetMoveInput()
         {
-            if (rb.velocity.magnitude == 0 && Input.GetAxisRaw("Horizontal") == 0)
+            if (rb.velocity.x == 0 && Input.GetAxisRaw("Horizontal") == 0)
             {
                 stopped = true;
 
@@ -151,36 +106,6 @@ namespace Heaven
             
             return moveDirection = 
                     Vector2.right * moveSpeed * Input.GetAxisRaw("Horizontal");
-
-
-        }
-        public void Jump()
-        {
-            isGrounded = false;
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.velocity += Vector2.up * jumpForce;
-            jumpsLeft = 0;
-        }
-
-        public void WallJump()
-        {
-            if (!canMove) return;
-
-            StopCoroutine(DisableMovement(0));
-            StartCoroutine(DisableMovement(.1f));
-
-            rb.velocity += ((facingDirection * wallJumpForce + Vector2.up) * jumpForce);
-            touchWall = false;
-        }
-        void WallSlide()
-        {
-            rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
-        }
-        IEnumerator DisableMovement(float time)
-        {
-            canMove = false;
-            yield return new WaitForSeconds(time);
-            canMove = true;
         }
         public void Respawn()
         {

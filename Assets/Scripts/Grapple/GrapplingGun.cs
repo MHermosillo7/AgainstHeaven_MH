@@ -57,6 +57,7 @@ namespace Heaven
             grappleRope = GetComponentInChildren<GrapplingRope>();
             camera = FindObjectOfType<Camera>();
 
+            autoConfigureDistance = true;
             grappleRope.enabled = false;
             joint2D.enabled = false;
         }

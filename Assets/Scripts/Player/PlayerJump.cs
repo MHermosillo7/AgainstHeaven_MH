@@ -9,30 +9,36 @@ namespace Heaven
         Rigidbody2D rb;
         [Header("Forces:")]
         [SerializeField] float jumpForce = 6f;
-        [SerializeField] float wallJumpForce = 10f;
         [SerializeField] float slideSpeed = .2f;
 
         [Header("State:")]
         public bool touchWall;
-        public bool canMove;
 
         [Header("Jump Buffer")]
-        [SerializeField] float holdInputTimer = 0.1f;
+        [SerializeField] float holdBufferTimer = 0.1f;
         public float jumpBufferTime;
         public bool substractBufferTime;
 
+        Vector2 jumpDirection;
         public float jumpsLeft = 1;
+        public float storeJumpsLeft;
         // Start is called before the first frame update
         void Start()
         {
             player = GetComponent<Player>();
             rb = GetComponent<Rigidbody2D>();
-            canMove = true;
+            storeJumpsLeft = jumpsLeft;
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (player.isGrounded)
+            {
+                jumpDirection = Vector2.up;
+            }
+            else jumpDirection = Vector2.up + player.facingDirection;
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (jumpsLeft >= 1)//&& player.isGrounded == true 
@@ -42,12 +48,20 @@ namespace Heaven
                 if (touchWall == true)
                 {
                     touchWall = false;
-                    WallJump();
+                    Jump();
                 }
                 else
                 {
-                    jumpBufferTime = holdInputTimer;
+                    jumpBufferTime = holdBufferTimer;
                 }
+            }
+            if (player.isGrounded)
+            {
+                touchWall = false;
+            }
+            if (touchWall)
+            {
+                WallSlide();
             }
             //Control buffer time
             if (substractBufferTime || jumpBufferTime > 0)
@@ -58,31 +72,23 @@ namespace Heaven
             {
                 substractBufferTime = false;
             }
-            if (touchWall)
-            {
-                WallSlide();
-            }
-            if (player.isGrounded)
-            {
-                touchWall = false;
-            }
-            
         }
         public void Jump()
         {
             player.isGrounded = false;
             rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.velocity += Vector2.up * jumpForce;
-            jumpsLeft = 1;
+
+            rb.velocity += jumpDirection * jumpForce;
+            jumpsLeft -= 1;
         }
         public void WallJump()
         {
-            Debug.Log("Holero");
-            rb.velocity += (Vector2.left * wallJumpForce);
+            //WorkInProgress
+            //rb.velocity += (Vector2.up + player.facingDirection) * jumpForce;
         }
         void WallSlide()
         {
-            rb.velocity = new Vector2(.01f, -slideSpeed);
+            rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
         }
     }
 

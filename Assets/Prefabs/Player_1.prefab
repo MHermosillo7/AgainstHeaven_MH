@@ -146,7 +146,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.22}
+  m_Size: {x: 0.17, y: 0.22}
   m_EdgeRadius: 0
 --- !u!50 &2600388985667919468
 Rigidbody2D:
@@ -284,11 +284,11 @@ MonoBehaviour:
   wallJumpForce: 10
   slideSpeed: 0.5
   touchWall: 0
-  canMove: 0
-  holdInputTimer: 0.05
+  holdInputTimer: 0.25
   jumpBufferTime: 0
   substractBufferTime: 0
   jumpsLeft: 1
+  storeJumpsLeft: 0
 --- !u!114 &6593135673811803542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,7 +467,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0063107535, y: 0.009466231}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0.25, y: 0.25, z: 0.25, w: 0.25}
     pivot: {x: 0.5, y: 0.5}
@@ -478,7 +478,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.0756187, y: 0.119794354}
+  m_Size: {x: 0.03, y: 0.05}
   m_EdgeRadius: 0
 --- !u!114 &1217806308111726771
 MonoBehaviour:
@@ -509,7 +509,7 @@ MonoBehaviour:
   launchToPoint: 0
   launchType: 0
   launchSpeed: 1.12
-  autoConfigureDistance: 0
+  autoConfigureDistance: 1
   targetDistance: 3
   targetFrequency: 1
   grapplePoint: {x: 0, y: 0}

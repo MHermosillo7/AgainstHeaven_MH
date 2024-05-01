@@ -18,7 +18,7 @@ namespace Heaven
             if (other.gameObject.CompareTag("Ground"))
             {
                 player.isGrounded = true;
-                playerJump.jumpsLeft += 1;
+                playerJump.jumpsLeft = playerJump.storeJumpsLeft;
 
                 if (playerJump.jumpBufferTime > 0 && playerJump.jumpsLeft > 0)
                 {

@@ -9,6 +9,7 @@ namespace Heaven
         public Rigidbody2D rb;
         Animator animator;
         GrapplingRope rope;
+        PlayerJump playerJump;
         SpriteRenderer sprite;
         GameObject aim;
 
@@ -32,6 +33,7 @@ namespace Heaven
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
             rope = GetComponentInChildren<GrapplingRope>();
+            playerJump = GetComponentInChildren<PlayerJump>();
             sprite = GetComponent<SpriteRenderer>();
             aim = GameObject.FindGameObjectWithTag("Aim");
 
@@ -55,7 +57,11 @@ namespace Heaven
 
             //Control forces applied to player when
             //moving horizontally depending on state isGrounded
-            MoveGround(GetMoveInput());
+            if (rope.isGrappling)
+            {
+                MoveGrapple(GetMoveInput());
+            }
+            else Move(GetMoveInput());
 
             //Set animator values to player equivalents
             if (animator)
@@ -88,11 +94,16 @@ namespace Heaven
                 sprite.flipX = true;
             }
         }
-        private void MoveGround(Vector2 direction)
+        private void Move(Vector2 direction)
         {
-            if (!canMove) return;
+            if (playerJump.touchWall) return;
 
             rb.velocity = (new Vector2(direction.x * moveSpeed, rb.velocity.y));
+        }
+        private void MoveGrapple(Vector2 direction)
+        {
+            rb.velocity += direction * moveSpeed * Time.deltaTime * 3;
+            //rb.AddForce(direction * moveSpeed * Time.deltaTime, ForceMode2D.Force);
         }
         private Vector2 GetMoveInput()
         {

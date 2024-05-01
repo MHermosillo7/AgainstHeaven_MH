@@ -26,7 +26,7 @@ namespace Heaven
         {
             if (gun.launchType == GrapplingGun.LaunchType.Physics)
             {
-                gun.launchType = GrapplingGun.LaunchType.Transform;
+                gun.launchType = GrapplingGun.LaunchType.Transform ;
                 gun.launchToPoint = false;
                 gun.autoConfigureDistance = false;
             }

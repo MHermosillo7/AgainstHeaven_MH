@@ -20,7 +20,7 @@ namespace Heaven
         // Update is called once per frame
         void Update()
         {
-            if (rope.isGrappling && gun.launchType == GrapplingGun.LaunchType.Transform)
+            if (rope.isGrappling && gun.launchToPoint == false)
             {
                 ChangeLength();
                 gun.joint2D.distance = gun.targetDistance;

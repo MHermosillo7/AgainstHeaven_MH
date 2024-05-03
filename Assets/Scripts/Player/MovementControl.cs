@@ -25,8 +25,8 @@ namespace Heaven
         {
             if (playerJump.touchWall)
             {
-                hitLeft = Physics2D.Raycast(transform.position, Vector2.left.normalized);
-                hitRight = Physics2D.Raycast(transform.position, Vector2.right.normalized);
+                hitLeft = Physics2D.Raycast(transform.position, Vector2.left.normalized, .1f);
+                hitRight = Physics2D.Raycast(transform.position, Vector2.right.normalized, .1f);
 
                 if (hitRight.transform.gameObject.tag == ("Wall"))
                 {

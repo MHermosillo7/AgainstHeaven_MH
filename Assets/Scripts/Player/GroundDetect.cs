@@ -23,7 +23,7 @@ namespace Heaven
 
                 if(playerJump.jumpBufferTime > 0 && playerJump.jumpsLeft > 0)
                 {
-                    playerJump.Jump();
+                    playerJump.Jump(1f);
                 }
             }
         }

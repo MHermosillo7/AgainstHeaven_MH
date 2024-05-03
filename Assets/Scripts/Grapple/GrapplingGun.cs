@@ -6,6 +6,7 @@ namespace Heaven
     {
         [Header("Scripts Ref:")]
         public GrapplingRope grappleRope;
+        ControlObject controller;
 
         [Header("LayerSettings:")]
         [SerializeField] private bool grappleToAll = false;
@@ -89,8 +90,9 @@ namespace Heaven
                             firePoint.position - player.localPosition;
 
                         Vector2 targetPos = grapplePoint - firePointDistnace;
-                        player.position = Vector2.Lerp
-                            (player.position, targetPos, Time.deltaTime * launchSpeed);
+                        player.position = 
+                            Vector2.Lerp(player.position, targetPos, 
+                            Time.deltaTime * launchSpeed);
                     }
                 }
             }
@@ -100,6 +102,11 @@ namespace Heaven
                 grappleRope.enabled = false;
                 joint2D.enabled = false;
                 rb.gravityScale = 1;
+                if (controller)
+                {
+                    StartCoroutine(controller.Deactivate());
+                    controller = null;
+                }
 
             }
             else
@@ -138,8 +145,13 @@ namespace Heaven
                 {
                     if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistance || !hasMaxDistance)
                     {
+                        controller = _hit.transform.gameObject.
+                        GetComponent<ControlObject>();
+
                         grapplePoint = _hit.point;
-                        grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
+                        Debug.Log("hallo");
+                        grappleDistanceVector = 
+                            grapplePoint - (Vector2)gunPivot.position;
                         grappleRope.enabled = true;
                     }
                 }

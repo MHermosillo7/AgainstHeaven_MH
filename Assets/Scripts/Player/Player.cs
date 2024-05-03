@@ -20,6 +20,7 @@ namespace Heaven
         [Header("State:")]
         public bool isGrounded;
         public bool stopped;
+        public bool falling;
         public bool canMove;
 
         [Header("Vectors")]
@@ -69,7 +70,9 @@ namespace Heaven
                 animator.SetFloat("XVelocity", rb.velocity.x);
                 animator.SetFloat("YVelocity", rb.velocity.y);
                 animator.SetBool("Stopped", stopped);
+                animator.SetBool("Falling", falling);
                 animator.SetBool("IsGrounded", isGrounded);
+                animator.SetBool("TouchWall", playerJump.touchWall);
                 animator.SetBool("IsGrappling", rope.isGrappling);
             }
         }
@@ -121,6 +124,14 @@ namespace Heaven
         public void Respawn()
         {
             transform.position = lastCheckpoint;
+        }
+        private void CheckFall()
+        {
+            if (rb.velocity.y == 0)
+            {
+                falling = false;
+            }
+            else falling = true;
         }
     }
 }

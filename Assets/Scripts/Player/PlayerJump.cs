@@ -43,12 +43,12 @@ namespace Heaven
             {
                 if (jumpsLeft >= 1)//&& player.isGrounded == true 
                 {
-                    Jump();
+                    Jump(1f);
                 }
                 if (touchWall == true)
                 {
                     touchWall = false;
-                    Jump();
+                    Jump(2f);
                 }
                 else
                 {
@@ -73,12 +73,12 @@ namespace Heaven
                 substractBufferTime = false;
             }
         }
-        public void Jump()
+        public void Jump(float multiplier)
         {
             player.isGrounded = false;
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
-            rb.velocity += jumpDirection * jumpForce;
+            rb.velocity += jumpDirection * jumpForce * multiplier;
             jumpsLeft -= 1;
         }
         public void WallJump()

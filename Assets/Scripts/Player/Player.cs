@@ -46,10 +46,12 @@ namespace Heaven
         // Update is called once per frame
         void Update()
         {
-            //Rotate player according to velocity
-            //or aim direction
+            if(transform.position == 0)
+            {
+                CameraMovement.cameraToPlayer = true;
+            }
             RotatePlayer();
-
+            CheckFall();
             //Set velocity limit
             if (rb.velocity.magnitude >= maxSpeed)
             {

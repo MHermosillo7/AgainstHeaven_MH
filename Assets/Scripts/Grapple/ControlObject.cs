@@ -13,16 +13,22 @@ namespace Heaven
         void Start()
         {
             collider = GetComponent<Collider2D>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
         public IEnumerator Deactivate()
         {
             for(int i = 0; i < 2; i++)
             {
-                if ()
+                if (collider.enabled)
                 {
-
+                    collider.enabled = false;
+                    spriteRenderer.enabled = false;
                 }
-                Debug.Log("Hola");
+                else
+                {
+                    collider.enabled = true;
+                    spriteRenderer.enabled = true;
+                }
                 yield return new WaitForSeconds(appearRate);
             }
         }

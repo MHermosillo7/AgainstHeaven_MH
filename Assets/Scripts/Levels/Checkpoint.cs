@@ -6,6 +6,7 @@ namespace Heaven
     public class Checkpoint : MonoBehaviour
     {
         Player player;
+        Animator animator;
 
         public Transform checkpointPos;
 
@@ -13,6 +14,7 @@ namespace Heaven
         void Awake()
         {
             player = FindObjectOfType<Player>();
+            animator = GetComponent<Animator>();
             checkpointPos = GetComponentInChildren<Transform>();
         }
 
@@ -21,6 +23,7 @@ namespace Heaven
             if (other.gameObject.CompareTag("Player"))
             {
                 player.lastCheckpoint = checkpointPos.position;
+                animator.SetTrigger("Open");
             }
         }
     }

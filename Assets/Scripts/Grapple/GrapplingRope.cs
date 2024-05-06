@@ -22,7 +22,8 @@ namespace Heaven
         [SerializeField][Range(1, 50)] private float ropeProgressionSpeed = 1;
 
         float moveTime = 0;
-
+        public float timeGrappling;
+        [SerializeField] bool startTimer;
         [HideInInspector] public bool isGrappling = true;
 
         bool strightLine = true;
@@ -83,6 +84,8 @@ namespace Heaven
                 {
                     grapplingGun.Grapple();
                     isGrappling = true;
+                    startTimer = true;
+                    GrapplingTimer();
                 }
                 if (waveSize > 0)
                 {
@@ -117,6 +120,14 @@ namespace Heaven
         {
             lineRenderer.SetPosition(0, grapplingGun.firePoint.position);
             lineRenderer.SetPosition(1, grapplingGun.grapplePoint);
+        }
+        void GrapplingTimer()
+        {
+            if (startTimer && timeGrappling == 0)
+            {
+                timeGrappling += Time.deltaTime;
+            }
+            else timeGrappling = 0;
         }
     }
 }

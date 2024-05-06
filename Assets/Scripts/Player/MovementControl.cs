@@ -28,7 +28,7 @@ namespace Heaven
                 hitLeft = Physics2D.Raycast(transform.position, Vector2.left.normalized, .1f);
                 hitRight = Physics2D.Raycast(transform.position, Vector2.right.normalized, .1f);
 
-                if (hitRight.transform.gameObject.tag == ("Wall"))
+                if (hitRight && hitRight.transform.gameObject.tag == "Wall")
                 {
                     if (Input.GetAxisRaw("Horizontal") == -1)
                     {
@@ -36,7 +36,7 @@ namespace Heaven
                     }
                     else player.canMove = false;
                 }
-                else if (hitLeft.transform.gameObject.tag == ("Wall"))
+                else if (hitLeft && hitLeft.transform.gameObject.tag == "Wall")
                 {
                     if (Input.GetAxisRaw("Horizontal") == 1)
                     {

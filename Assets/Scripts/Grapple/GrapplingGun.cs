@@ -102,11 +102,12 @@ namespace Heaven
                 grappleRope.enabled = false;
                 joint2D.enabled = false;
                 rb.gravityScale = 1;
-                if (controller)
+                if (controller && grappleRope.timeGrappling >= 1f)
                 {
                     StartCoroutine(controller.Deactivate());
                     controller = null;
                 }
+                else controller = null;
 
             }
             else
@@ -149,7 +150,6 @@ namespace Heaven
                         GetComponent<ControlObject>();
 
                         grapplePoint = _hit.point;
-                        Debug.Log("hallo");
                         grappleDistanceVector = 
                             grapplePoint - (Vector2)gunPivot.position;
                         grappleRope.enabled = true;

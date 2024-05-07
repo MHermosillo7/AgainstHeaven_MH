@@ -9,6 +9,8 @@ namespace Heaven
 
         RaycastHit2D hitLeft;
         RaycastHit2D hitRight;
+        RaycastHit2D diagonalRight;
+        RaycastHit2D diagonalLeft;
         // Start is called before the first frame update
         void Start()
         {
@@ -26,21 +28,24 @@ namespace Heaven
             if (playerJump.touchWall)
             {
                 hitLeft = Physics2D.Raycast(transform.position, Vector2.left.normalized, .1f);
-                hitRight = Physics2D.Raycast(transform.position, Vector2.right.normalized, .1f);
+                hitRight = Physics2D.Raycast(transform.position, Vector2.right.normalized, 1f);
 
-                if (hitRight && hitRight.transform.gameObject.tag == "Wall")
+                if (hitRight.transform.gameObject.tag == "Wall")
                 {
                     if (Input.GetAxisRaw("Horizontal") == -1)
                     {
                         playerJump.touchWall = false;
+                        playerJump.slideWall = false;
                     }
                     else player.canMove = false;
                 }
-                else if (hitLeft && hitLeft.transform.gameObject.tag == "Wall")
+                if (hitLeft.transform.gameObject.tag == "Wall")
                 {
                     if (Input.GetAxisRaw("Horizontal") == 1)
                     {
+                        Debug.LogWarning("A");
                         playerJump.touchWall = false;
+                        playerJump.slideWall = false;
                     }
                     else player.canMove = false;
                 }

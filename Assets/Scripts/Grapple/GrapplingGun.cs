@@ -102,9 +102,10 @@ namespace Heaven
                 grappleRope.enabled = false;
                 joint2D.enabled = false;
                 rb.gravityScale = 1;
+
                 if (controller && grappleRope.timeGrappling >= 1f)
                 {
-                    StartCoroutine(controller.Deactivate());
+                    //StartCoroutine(controller.Deactivate());
                     controller = null;
                 }
                 else controller = null;
@@ -120,6 +121,7 @@ namespace Heaven
         void RotateGun(Vector3 lookPoint, bool allowRotationOverTime)
         {
             Vector3 distanceVector = lookPoint - gunPivot.position;
+
             float angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
 
             if (rotateOverTime && allowRotationOverTime)

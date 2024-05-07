@@ -29,6 +29,7 @@ namespace Heaven
             if (other.gameObject.CompareTag("Wall"))
             {
                 playerJump.touchWall = true;
+                playerJump.slideWall = true;
 
                 if (playerJump.jumpBufferTime > 0)
                 {
@@ -47,6 +48,7 @@ namespace Heaven
             if (other.gameObject.CompareTag("Wall"))
             {
                 playerJump.touchWall = false;
+                playerJump.slideWall = false;
             }
         }
     }

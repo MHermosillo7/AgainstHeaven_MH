@@ -7,6 +7,7 @@ namespace Heaven
     {
         Player player;
         Animator animator;
+        Collider2D collider;
 
         public Transform checkpointPos;
 
@@ -15,7 +16,9 @@ namespace Heaven
         {
             player = FindObjectOfType<Player>();
             animator = GetComponent<Animator>();
+            collider = GetComponent<Collider2D>();
             checkpointPos = GetComponentInChildren<Transform>();
+            collider.isTrigger = true;
         }
 
         private void OnTriggerEnter2D(Collider2D other)

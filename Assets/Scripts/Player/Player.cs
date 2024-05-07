@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Heaven
@@ -10,6 +11,7 @@ namespace Heaven
         Animator animator;
         GrapplingRope rope;
         PlayerJump playerJump;
+        CameraMovement cameraMovement;
         SpriteRenderer sprite;
         GameObject aim;
 
@@ -26,6 +28,7 @@ namespace Heaven
         [Header("Vectors")]
         public Vector3 lastCheckpoint;
         public Vector2 facingDirection;
+        Vector3 playerPos;
         Vector2 moveDirection;
         
 
@@ -35,9 +38,11 @@ namespace Heaven
             animator = GetComponent<Animator>();
             rope = GetComponentInChildren<GrapplingRope>();
             playerJump = GetComponentInChildren<PlayerJump>();
+            cameraMovement = FindObjectOfType<CameraMovement>();
             sprite = GetComponent<SpriteRenderer>();
             aim = GameObject.FindGameObjectWithTag("Aim");
 
+            //Cursor.visible = false;
             canMove = true;
             lastCheckpoint = transform.position;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -46,9 +51,9 @@ namespace Heaven
         // Update is called once per frame
         void Update()
         {
-            if(transform.position == 0)
+            if(Mathf.RoundToInt(transform.position.x) == Mathf.RoundToInt(Camera.main.transform.position.x))
             {
-                CameraMovement.cameraToPlayer = true;
+                cameraMovement.cameraToPlayer = true;
             }
             RotatePlayer();
             CheckFall();
@@ -90,11 +95,11 @@ namespace Heaven
                 sprite.flipX = true;
                 facingDirection = Vector2.right;
             }
-            else if(aim.transform.position.x > transform.position.x)
+            else if(aim.transform.position.x > transform.position.x && !playerJump.touchWall)
             {
                 sprite.flipX = false;
             }
-            else if(aim.transform.position.x < transform.position.x)
+            else if(aim.transform.position.x < transform.position.x && !playerJump.touchWall)
             {
                 sprite.flipX = true;
             }
@@ -126,6 +131,7 @@ namespace Heaven
         public void Respawn()
         {
             transform.position = lastCheckpoint;
+            cameraMovement.ResetCamera(lastCheckpoint);
         }
         private void CheckFall()
         {

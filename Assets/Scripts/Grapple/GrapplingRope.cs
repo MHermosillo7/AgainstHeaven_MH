@@ -24,7 +24,7 @@ namespace Heaven
         float moveTime = 0;
         public float timeGrappling;
         [SerializeField] bool startTimer;
-        [HideInInspector] public bool isGrappling = true;
+        public bool isGrappling = true;
 
         bool strightLine = true;
 

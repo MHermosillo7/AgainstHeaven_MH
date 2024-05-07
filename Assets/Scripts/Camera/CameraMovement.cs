@@ -20,13 +20,15 @@ namespace Heaven
         {
             if (player.rb.velocity.x > 0 && cameraToPlayer == true)
             {
-               transform.position = new Vector3
-                    (player.transform.position.x, transform.position.y, transform.position.z);
+                transform.position = new Vector3
+                     (player.transform.position.x, transform.position.y, transform.position.z);
             }
+            else cameraToPlayer = false;
         }
         public void ResetCamera(Vector3 cameraPos)
         {
-            transform.position = cameraPos;
+            transform.position = new Vector3
+                (cameraPos.x, transform.position.y, transform.position.z); ;
         }
     }
 }

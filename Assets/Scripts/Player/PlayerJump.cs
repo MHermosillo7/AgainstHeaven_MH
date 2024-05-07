@@ -13,6 +13,7 @@ namespace Heaven
 
         [Header("State:")]
         public bool touchWall;
+        public bool slideWall;
 
         [Header("Jump Buffer")]
         [SerializeField] float holdBufferTimer = 0.1f;
@@ -47,8 +48,8 @@ namespace Heaven
                 }
                 if (touchWall == true)
                 {
-                    touchWall = false;
-                    Jump(2f);
+                    slideWall = false;
+                    WallJump();
                 }
                 else
                 {
@@ -57,9 +58,10 @@ namespace Heaven
             }
             if (player.isGrounded)
             {
+                slideWall = false;
                 touchWall = false;
             }
-            if (touchWall)
+            if (slideWall)
             {
                 WallSlide();
             }
@@ -84,7 +86,7 @@ namespace Heaven
         public void WallJump()
         {
             //WorkInProgress
-            //rb.velocity += (Vector2.up + player.facingDirection) * jumpForce;
+            rb.velocity += (Vector2.up + player.facingDirection) * jumpForce * 2f;
         }
         void WallSlide()
         {

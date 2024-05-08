@@ -2,14 +2,14 @@ using UnityEngine;
 
 namespace Heaven
 {
-    [RequireComponent(typeof(Collider2D))]
     public class WallDetect : MonoBehaviour
     {
+        Player player;
         PlayerJump playerJump;
-
         // Start is called before the first frame update
         void Start()
         {
+            player = GetComponent<Player>();
             playerJump = FindObjectOfType<PlayerJump>();
         }
 
@@ -17,17 +17,25 @@ namespace Heaven
         {
             if (other.gameObject.CompareTag("Wall"))
             {
-                playerJump.touchWall = true;
-
-                if (playerJump.jumpBufferTime > 0)
+                if (name == "Left")
                 {
-                    playerJump.WallJump();
+                    player.leftWall = true;
+                }
+                else if (name == "right")
+                {
+                    player.rightWall = true;
                 }
             }
         }
         private void OnCollisionExit2D(Collision2D other)
         {
-            playerJump.touchWall = false;
+            if (other.gameObject.CompareTag("Wall"))
+            {
+                playerJump.touchWall = false;
+                playerJump.slideWall = false;
+                player.leftWall = false;
+                player.rightWall = false;
+            }
         }
     }
 }

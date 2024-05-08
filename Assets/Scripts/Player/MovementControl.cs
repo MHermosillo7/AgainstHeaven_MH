@@ -19,7 +19,7 @@ namespace Heaven
         }
 
         // Update is called once per frame
-        void Update()
+        void LateUpdate()
         {
             CheckWall();
         }
@@ -27,10 +27,10 @@ namespace Heaven
         {
             if (playerJump.touchWall)
             {
-                hitLeft = Physics2D.Raycast(transform.position, Vector2.left.normalized, .1f);
-                hitRight = Physics2D.Raycast(transform.position, Vector2.right.normalized, 1f);
+                hitLeft = Physics2D.Raycast(transform.position, Vector2.left.normalized, .5f);
+                hitRight = Physics2D.Raycast(transform.position, Vector2.right.normalized,.5f);
 
-                if (hitRight.transform.gameObject.tag == "Wall")
+                if (hitRight && hitRight.transform.gameObject.tag == "Wall")
                 {
                     if (Input.GetAxisRaw("Horizontal") == -1)
                     {
@@ -39,11 +39,11 @@ namespace Heaven
                     }
                     else player.canMove = false;
                 }
-                if (hitLeft.transform.gameObject.tag == "Wall")
+                if (hitLeft && hitLeft.transform.gameObject.tag == "Wall")
                 {
                     if (Input.GetAxisRaw("Horizontal") == 1)
                     {
-                        Debug.LogWarning("A");
+                        Debug.LogWarning("Right");
                         playerJump.touchWall = false;
                         playerJump.slideWall = false;
                     }

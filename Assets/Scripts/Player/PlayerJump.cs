@@ -14,6 +14,7 @@ namespace Heaven
         [Header("State:")]
         public bool touchWall;
         public bool slideWall;
+        public bool jumped;
 
         [Header("Jump Buffer")]
         [SerializeField] float holdBufferTimer = 0.1f;
@@ -77,7 +78,7 @@ namespace Heaven
         }
         public void Jump(float multiplier)
         {
-            player.isGrounded = false;
+            jumped = true;
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
             rb.velocity += jumpDirection * jumpForce * multiplier;
@@ -87,6 +88,7 @@ namespace Heaven
         {
             //WorkInProgress
             rb.velocity += (Vector2.up + player.facingDirection) * jumpForce * 2f;
+            jumped = true;
         }
         void WallSlide()
         {

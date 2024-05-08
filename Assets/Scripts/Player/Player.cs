@@ -12,6 +12,7 @@ namespace Heaven
         GrapplingRope rope;
         PlayerJump playerJump;
         CameraMovement cameraMovement;
+        MovementControl movementControl;
         SpriteRenderer sprite;
         GameObject aim;
 
@@ -21,6 +22,8 @@ namespace Heaven
 
         [Header("State:")]
         public bool isGrounded;
+        public bool leftWall;
+        public bool rightWall;
         public bool stopped;
         public bool falling;
         public bool canMove;
@@ -39,11 +42,11 @@ namespace Heaven
             rope = GetComponentInChildren<GrapplingRope>();
             playerJump = GetComponentInChildren<PlayerJump>();
             cameraMovement = FindObjectOfType<CameraMovement>();
+            movementControl = GetComponent<MovementControl>(); ;
             sprite = GetComponent<SpriteRenderer>();
             aim = GameObject.FindGameObjectWithTag("Aim");
 
-            //Cursor.visible = false;
-            canMove = true;
+            Cursor.visible = false;
             lastCheckpoint = transform.position;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
@@ -70,7 +73,6 @@ namespace Heaven
                 MoveGrapple(GetMoveInput());
             }
             else Move(GetMoveInput());
-
             //Set animator values to player equivalents
             if (animator)
             {
@@ -78,7 +80,7 @@ namespace Heaven
                 animator.SetFloat("YVelocity", rb.velocity.y);
                 animator.SetBool("Stopped", stopped);
                 animator.SetBool("Falling", falling);
-                animator.SetBool("IsGrounded", isGrounded);
+                animator.SetBool("IsGrounded", !playerJump.jumped);
                 animator.SetBool("TouchWall", playerJump.touchWall);
                 animator.SetBool("IsGrappling", rope.isGrappling);
             }
@@ -89,25 +91,33 @@ namespace Heaven
             {
                 sprite.flipX = false;
                 facingDirection = Vector2.left;
+                if (leftWall)
+                {
+                    playerJump.touchWall = false;
+                }
             }
             else if(Input.GetAxisRaw("Horizontal") == -1 || rb.velocity.x < 0)
             {
                 sprite.flipX = true;
                 facingDirection = Vector2.right;
+                if (rightWall)
+                {
+                    playerJump.touchWall = false;
+                }
             }
-            else if(aim.transform.position.x > transform.position.x && !playerJump.touchWall)
+            else if(aim && aim.transform.position.x > transform.position.x 
+                && !playerJump.touchWall)
             {
                 sprite.flipX = false;
             }
-            else if(aim.transform.position.x < transform.position.x && !playerJump.touchWall)
+            else if(aim && aim.transform.position.x < transform.position.x 
+                && !playerJump.touchWall)
             {
                 sprite.flipX = true;
             }
         }
         private void Move(Vector2 direction)
         {
-            if (playerJump.touchWall) return;
-
             rb.velocity = (new Vector2(direction.x * moveSpeed, rb.velocity.y));
         }
         private void MoveGrapple(Vector2 direction)
@@ -125,6 +135,7 @@ namespace Heaven
             }
             else stopped = false;
             
+            //if(Input.GetAxisRaw("Horizontal") == 0) return
             return moveDirection = 
                     Vector2.right * moveSpeed * Input.GetAxisRaw("Horizontal");
         }

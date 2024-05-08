@@ -11,7 +11,7 @@ namespace Heaven
         private float input;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             gun = FindObjectOfType<GrapplingGun>();
             rope = FindObjectOfType<GrapplingRope>();
@@ -20,10 +20,13 @@ namespace Heaven
         // Update is called once per frame
         void Update()
         {
-            if (rope.isGrappling && gun.launchToPoint == false)
+            if(gun && rope)
             {
-                ChangeLength();
-                gun.joint2D.distance = gun.targetDistance;
+                if (rope.isGrappling && gun.launchToPoint == false)
+                {
+                    ChangeLength();
+                    gun.joint2D.distance = gun.targetDistance;
+                }
             }
         }
 

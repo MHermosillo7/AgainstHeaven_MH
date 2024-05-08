@@ -53,7 +53,7 @@ namespace Heaven
         [HideInInspector] public Vector2 grapplePoint;
         [HideInInspector] public Vector2 grappleDistanceVector;
 
-        private void Start()
+        private void Awake()
         {
             grappleRope = GetComponentInChildren<GrapplingRope>();
             camera = FindObjectOfType<Camera>();
@@ -105,7 +105,7 @@ namespace Heaven
 
                 if (controller && grappleRope.timeGrappling >= 1f)
                 {
-                    //StartCoroutine(controller.Deactivate());
+                    StartCoroutine(controller.Deactivate());
                     controller = null;
                 }
                 else controller = null;
@@ -143,7 +143,6 @@ namespace Heaven
             if (Physics2D.Raycast(firePoint.position, distanceVector.normalized))
             {
                 RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized);
-
                 if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
                 {
                     if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistance || !hasMaxDistance)

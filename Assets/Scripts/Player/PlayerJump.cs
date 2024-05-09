@@ -43,11 +43,11 @@ namespace Heaven
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (jumpsLeft >= 1)//&& player.isGrounded == true 
+                if (jumpsLeft >= 1 && !jumped)//&& player.isGrounded == true 
                 {
                     Jump(1f);
                 }
-                if (touchWall == true)
+                if (touchWall == true && !player.isGrounded)
                 {
                     slideWall = false;
                     WallJump();
@@ -57,15 +57,12 @@ namespace Heaven
                     jumpBufferTime = holdBufferTimer;
                 }
             }
-            if (player.isGrounded)
-            {
-                slideWall = false;
-                touchWall = false;
-            }
-            if (slideWall)
+            if (slideWall && !player.isGrounded)
             {
                 WallSlide();
             }
+            if (player.leftWall || player.rightWall) touchWall = true;
+
             //Control buffer time
             if (substractBufferTime || jumpBufferTime > 0)
             {
@@ -83,12 +80,13 @@ namespace Heaven
 
             rb.velocity += jumpDirection * jumpForce * multiplier;
             jumpsLeft -= 1;
+            jumpBufferTime = 0;
         }
         public void WallJump()
         {
-            //WorkInProgress
-            rb.velocity += (Vector2.up + player.facingDirection) * jumpForce * 2f;
+            rb.velocity += ((Vector2.up *2f) + player.facingDirection) * jumpForce * 2f;
             jumped = true;
+            jumpBufferTime = 0;
         }
         void WallSlide()
         {

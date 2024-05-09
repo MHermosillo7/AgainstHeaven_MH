@@ -9,7 +9,7 @@ namespace Heaven
         // Start is called before the first frame update
         void Start()
         {
-            player = GetComponent<Player>();
+            player = FindObjectOfType<Player>();
             playerJump = FindObjectOfType<PlayerJump>();
         }
 
@@ -21,7 +21,7 @@ namespace Heaven
                 {
                     player.leftWall = true;
                 }
-                else if (name == "right")
+                else if (name == "Right")
                 {
                     player.rightWall = true;
                 }

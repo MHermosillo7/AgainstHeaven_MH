@@ -15,7 +15,6 @@ namespace Heaven
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            Debug.Log(other.transform.name);
             if (other.gameObject.CompareTag("Wall"))
             {
                 playerJump.touchWall = true;

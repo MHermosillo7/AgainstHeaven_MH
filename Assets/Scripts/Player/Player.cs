@@ -87,43 +87,57 @@ namespace Heaven
         }
         void RotatePlayer()
         {
-            if(Input.GetAxisRaw("Horizontal") == 1 || rb.velocity.x > 0)
+            if (Input.GetAxisRaw("Horizontal") == 0 && isGrounded) return;
+            else if (Input.GetAxisRaw("Horizontal") == 1 || rb.velocity.x > 0)
             {
                 sprite.flipX = false;
                 facingDirection = Vector2.left;
-                if (leftWall)
+
+                if (leftWall == true && Input.GetAxisRaw("Horizontal") == 1)
                 {
-                    playerJump.touchWall = false;
+                    playerJump.slideWall = false;
+                    AwayFromWall(Vector2.right);
                 }
             }
-            else if(Input.GetAxisRaw("Horizontal") == -1 || rb.velocity.x < 0)
+            else if (Input.GetAxisRaw("Horizontal") == -1 || rb.velocity.x < 0)
             {
                 sprite.flipX = true;
                 facingDirection = Vector2.right;
-                if (rightWall)
+
+                if (rightWall == true && Input.GetAxisRaw("Horizontal") == -1)
                 {
-                    playerJump.touchWall = false;
+                    playerJump.slideWall = false;
+                    AwayFromWall(Vector2.left);
                 }
             }
-            else if(aim && aim.transform.position.x > transform.position.x 
+            else if (aim && aim.transform.position.x > transform.position.x
                 && !playerJump.touchWall)
             {
                 sprite.flipX = false;
             }
-            else if(aim && aim.transform.position.x < transform.position.x 
+            else if (aim && aim.transform.position.x < transform.position.x
                 && !playerJump.touchWall)
             {
                 sprite.flipX = true;
+            }
+            else if(playerJump.touchWall && leftWall)
+            {
+                sprite.flipX = true;
+            }
+            else if(playerJump.touchWall && rightWall)
+            {
+                sprite.flipX = false;
             }
         }
         private void Move(Vector2 direction)
         {
+            if (playerJump.touchWall) return;
+
             rb.velocity = (new Vector2(direction.x * moveSpeed, rb.velocity.y));
         }
         private void MoveGrapple(Vector2 direction)
         {
             rb.velocity += direction * moveSpeed * Time.deltaTime * 3;
-            //rb.AddForce(direction * moveSpeed * Time.deltaTime, ForceMode2D.Force);
         }
         private Vector2 GetMoveInput()
         {
@@ -134,8 +148,7 @@ namespace Heaven
                 return Vector2.zero;
             }
             else stopped = false;
-            
-            //if(Input.GetAxisRaw("Horizontal") == 0) return
+
             return moveDirection = 
                     Vector2.right * moveSpeed * Input.GetAxisRaw("Horizontal");
         }
@@ -151,6 +164,10 @@ namespace Heaven
                 falling = false;
             }
             else falling = true;
+        }
+        private void AwayFromWall(Vector2 direction)
+        {
+            rb.velocity += direction * .25f;
         }
     }
 }

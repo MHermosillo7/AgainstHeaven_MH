@@ -23,6 +23,7 @@ namespace Heaven
                 if (playerJump.jumpBufferTime > 0)
                 {
                     playerJump.jumpBufferTime = 0;
+                    playerJump.slideWall = false;
                     playerJump.WallJump();
                 }
             }
@@ -32,7 +33,7 @@ namespace Heaven
                 playerJump.jumped = false;
                 playerJump.jumpsLeft = playerJump.storeJumpsLeft;
 
-                if (playerJump.jumpBufferTime > 0 && playerJump.jumpsLeft > 0)
+                if (playerJump.jumpBufferTime > 0)
                 {
                     playerJump.jumpBufferTime = 0;
                     playerJump.Jump(1f);
@@ -48,11 +49,7 @@ namespace Heaven
             }
             if (other.gameObject.CompareTag("Ground"))
             {
-                if(playerJump.jumped == false)
-                {
-                    player.isGrounded = true;
-                }
-                else player.isGrounded = false;
+                player.isGrounded = false;
 
                 playerJump.substractBufferTime = true;
             }

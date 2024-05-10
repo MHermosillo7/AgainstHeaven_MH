@@ -35,6 +35,9 @@ namespace Heaven
                 playerJump.slideWall = false;
                 player.leftWall = false;
                 player.rightWall = false;
+
+                playerJump.ResetJumpBuffer();
+                playerJump.exitWall = true;
             }
         }
     }

@@ -103,7 +103,7 @@ namespace Heaven
                 joint2D.enabled = false;
                 rb.gravityScale = 1;
 
-                if (controller && grappleRope.timeGrappling >= 1f)
+                if (controller)
                 {
                     StartCoroutine(controller.Deactivate());
                     controller = null;

@@ -17,9 +17,11 @@ namespace Heaven
         public bool jumped;
 
         [Header("Jump Buffer")]
-        [SerializeField] float holdBufferTimer = 0.1f;
+        [SerializeField] float holdBufferTimer = 0.05f;
         public float jumpBufferTime;
         public bool substractBufferTime;
+        public bool exitWall;
+        public bool exitGround;
 
         Vector2 jumpDirection;
         public float jumpsLeft = 1;
@@ -43,9 +45,13 @@ namespace Heaven
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (jumpsLeft >= 1 && !jumped)//&& player.isGrounded == true 
+                if (jumpsLeft >= 1 && !jumped)
                 {
                     Jump(1f);
+                }
+                else
+                {
+                    ResetJumpBuffer();
                 }
                 if (touchWall == true && !player.isGrounded)
                 {
@@ -54,7 +60,7 @@ namespace Heaven
                 }
                 else
                 {
-                    jumpBufferTime = holdBufferTimer;
+                    ResetJumpBuffer();
                 }
             }
             if (slideWall && !player.isGrounded)
@@ -64,7 +70,7 @@ namespace Heaven
             if (player.leftWall || player.rightWall) touchWall = true;
 
             //Control buffer time
-            if (substractBufferTime || jumpBufferTime > 0)
+            if (jumpBufferTime > 0)
             {
                 jumpBufferTime -= Time.deltaTime;
             }
@@ -84,13 +90,18 @@ namespace Heaven
         }
         public void WallJump()
         {
-            rb.velocity += ((Vector2.up *2f) + player.facingDirection) * jumpForce * 2f;
+            rb.velocity += ((Vector2.up *2) + 
+                (player.facingDirection * 4f)) * jumpForce;
             jumped = true;
             jumpBufferTime = 0;
         }
         void WallSlide()
         {
-            rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
+            rb.velocity = new Vector2(0, -slideSpeed);
+        }
+        public void ResetJumpBuffer()
+        {
+            jumpBufferTime = holdBufferTimer;
         }
     }
 

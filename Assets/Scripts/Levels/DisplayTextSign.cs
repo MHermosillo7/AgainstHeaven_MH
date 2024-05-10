@@ -9,15 +9,16 @@ namespace Heaven
         Collider2D collider;
         [SerializeField] Text text;
         [SerializeField] string displayText;
+        [SerializeField] GameObject panel;
         // Start is called before the first frame update
         void Start()
         {
             collider = GetComponent<Collider2D>();
-            text = GameObject.Find("Instructions").GetComponent<Text>();
             collider.isTrigger = true;
             if (text)
             {
                 text.text = "";
+                panel.SetActive(false);
             }
         }
 
@@ -25,6 +26,7 @@ namespace Heaven
         {
             if (other.gameObject.CompareTag("Player"))
             {
+                panel.SetActive(true);
                 text.text = displayText;
             }
         }
@@ -33,6 +35,7 @@ namespace Heaven
             if (other.gameObject.CompareTag("Player"))
             {
                 text.text = "";
+                panel.SetActive(false);
             }
         }
     }

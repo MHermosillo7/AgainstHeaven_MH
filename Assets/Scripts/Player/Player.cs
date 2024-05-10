@@ -80,7 +80,7 @@ namespace Heaven
                 animator.SetFloat("YVelocity", rb.velocity.y);
                 animator.SetBool("Stopped", stopped);
                 animator.SetBool("Falling", falling);
-                animator.SetBool("IsGrounded", !playerJump.jumped);
+                animator.SetBool("IsGrounded", isGrounded);
                 animator.SetBool("TouchWall", playerJump.touchWall);
                 animator.SetBool("IsGrappling", rope.isGrappling);
             }
@@ -141,10 +141,9 @@ namespace Heaven
         }
         private Vector2 GetMoveInput()
         {
-            if (rb.velocity.x == 0 && Input.GetAxisRaw("Horizontal") == 0)
+            if (Input.GetAxisRaw("Horizontal") == 0)
             {
-                stopped = true;
-
+                if (rb.velocity.x ==0) stopped = true;
                 return Vector2.zero;
             }
             else stopped = false;

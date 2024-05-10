@@ -4,21 +4,11 @@ namespace Heaven
 {
     public class EnableGrapple : MonoBehaviour
     {
-        GameObject grappleGun;
-        GameObject controlGrapple;
-        GameObject hookMode;
-        GameObject[] grappleObjects = new GameObject[3];
+        [SerializeField] GameObject[] grappleObjects;
         int i = 0;
         // Start is called before the first frame update
         void Start()
         {
-            grappleGun = GameObject.Find("GrapplingGun");
-            controlGrapple = GameObject.Find("ControlGrapple");
-            hookMode = GameObject.Find("HookMode");
-
-            grappleObjects[0] = grappleGun;
-            grappleObjects[1] = controlGrapple;
-            grappleObjects[2] = hookMode;
             for (int a = 0; a < grappleObjects.Length; a++)
             {
                 grappleObjects[a].SetActive(false);

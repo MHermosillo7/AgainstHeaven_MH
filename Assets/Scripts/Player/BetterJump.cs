@@ -8,16 +8,18 @@ namespace Heaven
         [SerializeField] float lowJumpMultiplier = 2f;
 
         Rigidbody2D rb;
+        PlayerJump playerJump;
         // Start is called before the first frame update
         void Start()
         {
             rb = GetComponent<Rigidbody2D>();
+            playerJump = GetComponent<PlayerJump>();
         }
 
         // Update is called once per frame
         void Update()
         {
-           
+
             if (rb.velocity.y < 0)
             {
                 rb.velocity += Vector2.up * Physics2D.gravity.y * 

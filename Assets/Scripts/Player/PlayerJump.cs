@@ -51,8 +51,10 @@ namespace Heaven
                 }
                 else
                 {
+                    //If doing solution one, this is the function to eliminate
                     ResetJumpBuffer();
                 }
+                //Change function below to else if
                 if (touchWall == true && !player.isGrounded)
                 {
                     slideWall = false;
@@ -60,6 +62,14 @@ namespace Heaven
                 }
                 else
                 {
+                    //There are two checks happening, the one above and this one
+                    //However, one of them is always bound to return false
+                    //Thus activating the function below each time the space bar
+                    //is pressed, no exceptions.
+
+                    //Solution 1: Make an if, else if, and else structure
+
+                    //Ps: Do it in another branch, high posibilities code breaks.
                     ResetJumpBuffer();
                 }
             }

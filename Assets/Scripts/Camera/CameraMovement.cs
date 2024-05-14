@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace Heaven
@@ -14,14 +13,19 @@ namespace Heaven
         {
             player = FindObjectOfType<Player>();
             collider = GetComponent<Collider2D>();
-            collider.isTrigger = true;
         }
-        private void Update()
+        private void LateUpdate()
+        {
+            GroundedLevel();
+        }
+        void GroundedLevel()
         {
             if (player.rb.velocity.x > 0 && cameraToPlayer == true)
             {
-                transform.position = new Vector3
-                     (player.transform.position.x, transform.position.y, transform.position.z);
+                Vector3 targetPos = new Vector3
+                    (player.transform.position.x,
+                    transform.position.y, -10);
+                transform.position = targetPos;
             }
             else cameraToPlayer = false;
         }

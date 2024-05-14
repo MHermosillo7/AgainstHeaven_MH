@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SecondLevel.unity
     guid: 3fe143c5a86036346b8b652125c39645
   - enabled: 1
+    path: Assets/Scenes/SecondEndCutscene.unity
+    guid: cf7346304418deb4da1b47e95290d988
+  - enabled: 1
     path: Assets/Scenes/ThirdLevel.unity
     guid: 1b78d96f9a5046e41a18e4d9d735f5bd
   m_configObjects: {}

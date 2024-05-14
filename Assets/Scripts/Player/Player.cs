@@ -17,7 +17,7 @@ namespace Heaven
         GameObject aim;
 
         [Header("Forces:")]
-        [SerializeField] float moveSpeed = 0.5f;
+        public float moveSpeed = 0.5f;
         [SerializeField] float maxSpeed = 10f;
 
         [Header("State:")]
@@ -54,10 +54,6 @@ namespace Heaven
         // Update is called once per frame
         void Update()
         {
-            if(Mathf.RoundToInt(transform.position.x) == Mathf.RoundToInt(Camera.main.transform.position.x))
-            {
-                cameraMovement.cameraToPlayer = true;
-            }
             RotatePlayer();
             CheckFall();
             //Set velocity limit
@@ -133,7 +129,7 @@ namespace Heaven
         {
             if (playerJump.touchWall) return;
 
-            rb.velocity = (new Vector2(direction.x * moveSpeed, rb.velocity.y));
+            rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
         }
         private void MoveGrapple(Vector2 direction)
         {

@@ -36,6 +36,7 @@ namespace Heaven
                 if (playerJump.jumpBufferTime > 0)
                 {
                     playerJump.jumpBufferTime = 0;
+                    Debug.Log("Jump?");
                     playerJump.Jump(1f);
                 }
             }

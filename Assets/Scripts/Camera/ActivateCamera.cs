@@ -1,25 +1,27 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Heaven
 {
     [RequireComponent(typeof(Collider2D))]
-    public class NextLevel : MonoBehaviour
+    public class ActivateCamera : MonoBehaviour
     {
-        public Animator animator;
         Collider2D collider;
-        private void Start()
+        CameraMovement cameraMov;
+        // Start is called before the first frame update
+        void Start()
         {
             collider = GetComponent<Collider2D>();
             collider.isTrigger = true;
+            cameraMov = FindObjectOfType<CameraMovement>();
         }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                animator.SetTrigger("Start");
+                cameraMov.cameraToPlayer = true;
+                this.enabled = false;
             }
         }
-    }   
+    }
 }
-

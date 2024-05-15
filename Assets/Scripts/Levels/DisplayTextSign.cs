@@ -11,7 +11,7 @@ namespace Heaven
         [SerializeField] string displayText;
         [SerializeField] GameObject panel;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             collider = GetComponent<Collider2D>();
             collider.isTrigger = true;

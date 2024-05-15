@@ -7,7 +7,7 @@ namespace Heaven
         Player player;
         PlayerJump playerJump;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             player = FindObjectOfType<Player>();
             playerJump = FindObjectOfType<PlayerJump>();

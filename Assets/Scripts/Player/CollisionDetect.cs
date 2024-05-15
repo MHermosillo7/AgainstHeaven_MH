@@ -7,7 +7,7 @@ namespace Heaven
         Player player;
         PlayerJump playerJump;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             player = FindObjectOfType<Player>();
             playerJump = FindObjectOfType<PlayerJump>();
@@ -36,10 +36,21 @@ namespace Heaven
                 if (playerJump.jumpBufferTime > 0)
                 {
                     playerJump.jumpBufferTime = 0;
-                    Debug.Log("Jump?");
                     playerJump.Jump(1f);
                 }
             }
+        }
+        private void OnCollisionStay2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Wall"))
+            {
+                playerJump.touchWall = true;
+            }
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                player.isGrounded = true;
+            }
+
         }
         private void OnCollisionExit2D(Collision2D other)
         {
@@ -51,8 +62,6 @@ namespace Heaven
             if (other.gameObject.CompareTag("Ground"))
             {
                 player.isGrounded = false;
-
-                playerJump.substractBufferTime = true;
             }
         }
     }

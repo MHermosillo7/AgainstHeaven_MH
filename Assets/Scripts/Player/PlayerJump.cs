@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Heaven
 {
@@ -7,8 +8,11 @@ namespace Heaven
     {
         Player player;
         Rigidbody2D rb;
+        EndCutscene endCutscene;
+
         [Header("Forces:")]
         [SerializeField] float jumpForce = 6f;
+        [SerializeField] float horizontalForce = 3f;
         [SerializeField] float slideSpeed = .2f;
 
         [Header("State:")]
@@ -19,7 +23,6 @@ namespace Heaven
         [Header("Jump Buffer")]
         [SerializeField] float holdBufferTimer = 0.05f;
         public float jumpBufferTime;
-        public bool substractBufferTime;
         public bool exitWall;
         public bool exitGround;
 
@@ -27,10 +30,11 @@ namespace Heaven
         public float jumpsLeft = 1;
         public float storeJumpsLeft;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             player = GetComponent<Player>();
             rb = GetComponent<Rigidbody2D>();
+            endCutscene = FindObjectOfType<EndCutscene>();
             storeJumpsLeft = jumpsLeft;
         }
 
@@ -43,34 +47,20 @@ namespace Heaven
             }
             else jumpDirection = Vector2.up + player.facingDirection;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !endCutscene.cutscene)
             {
+                if (!touchWall && !player.isGrounded)
+                {
+                    ResetJumpBuffer();
+                }
                 if (jumpsLeft >= 1 && !jumped)
                 {
                     Jump(1f);
                 }
-                else
-                {
-                    //If doing solution one, this is the function to eliminate
-                    ResetJumpBuffer();
-                }
-                //Change function below to else if
                 if (touchWall == true && !player.isGrounded)
                 {
                     slideWall = false;
                     WallJump();
-                }
-                else
-                {
-                    //There are two checks happening, the one above and this one
-                    //However, one of them is always bound to return false
-                    //Thus activating the function below each time the space bar
-                    //is pressed, no exceptions.
-
-                    //Solution 1: Make an if, else if, and else structure
-
-                    //Ps: Do it in another branch, high posibilities code breaks.
-                    ResetJumpBuffer();
                 }
             }
             if (slideWall && !player.isGrounded)
@@ -86,7 +76,7 @@ namespace Heaven
             }
             if (jumpBufferTime <= 0)
             {
-                substractBufferTime = false;
+                jumpBufferTime = 0;
             }
         }
         public void Jump(float multiplier)
@@ -100,8 +90,9 @@ namespace Heaven
         }
         public void WallJump()
         {
-            rb.velocity += ((Vector2.up *2) + 
-                (player.facingDirection * 4f)) * jumpForce;
+            slideWall = false;
+            rb.velocity += ((Vector2.up * 3f) + 
+                (player.facingDirection * horizontalForce)) * jumpForce * 4;
             jumped = true;
             jumpBufferTime = 0;
         }

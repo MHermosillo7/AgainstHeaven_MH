@@ -9,23 +9,22 @@ namespace Heaven
 
         public bool cameraToPlayer;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             player = FindObjectOfType<Player>();
             collider = GetComponent<Collider2D>();
         }
-        private void LateUpdate()
+        private void FixedUpdate()
         {
+            CheckPlayerPosition();
             GroundedLevel();
         }
         void GroundedLevel()
         {
             if (player.rb.velocity.x > 0 && cameraToPlayer == true)
             {
-                Vector3 targetPos = new Vector3
-                    (player.transform.position.x,
-                    transform.position.y, -10);
-                transform.position = targetPos;
+                Vector3 targetPos = new Vector3(player.transform.position.x,transform.position.y, -10);
+                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime);
             }
             else cameraToPlayer = false;
         }
@@ -33,6 +32,14 @@ namespace Heaven
         {
             transform.position = new Vector3
                 (cameraPos.x, transform.position.y, transform.position.z); ;
+        }
+        void CheckPlayerPosition()
+        {
+            if (player.transform.position.x < transform.position.x)
+            {
+                cameraToPlayer = false;
+            }
+            else cameraToPlayer = true;
         }
     }
 }

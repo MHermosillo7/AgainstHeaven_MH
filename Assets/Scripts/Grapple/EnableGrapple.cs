@@ -7,7 +7,7 @@ namespace Heaven
         [SerializeField] GameObject[] grappleObjects;
         int i = 0;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             for (int a = 0; a < grappleObjects.Length; a++)
             {

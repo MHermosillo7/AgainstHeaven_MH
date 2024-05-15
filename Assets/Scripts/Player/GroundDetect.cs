@@ -32,7 +32,6 @@ namespace Heaven
             if (other.gameObject.CompareTag("Ground"))
             {
                 player.isGrounded = false;
-                playerJump.substractBufferTime = true;
             }
         }
     }

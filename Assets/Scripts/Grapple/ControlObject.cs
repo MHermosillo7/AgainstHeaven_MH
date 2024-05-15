@@ -10,7 +10,7 @@ namespace Heaven
         SpriteRenderer spriteRenderer;
         [SerializeField] float appearRate;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             collider = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();

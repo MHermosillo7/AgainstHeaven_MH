@@ -9,6 +9,7 @@ namespace Heaven
         [Header("References:")]
         public Rigidbody2D rb;
         Animator animator;
+        EndCutscene endCutscene;
         GrapplingRope rope;
         PlayerJump playerJump;
         CameraMovement cameraMovement;
@@ -41,11 +42,12 @@ namespace Heaven
             animator = GetComponent<Animator>();
             rope = GetComponentInChildren<GrapplingRope>();
             playerJump = GetComponentInChildren<PlayerJump>();
+            movementControl = GetComponent<MovementControl>();
             cameraMovement = FindObjectOfType<CameraMovement>();
-            movementControl = GetComponent<MovementControl>(); ;
+            endCutscene = FindObjectOfType<EndCutscene>();
             sprite = GetComponent<SpriteRenderer>();
             aim = GameObject.FindGameObjectWithTag("Aim");
-
+            
             Cursor.visible = false;
             lastCheckpoint = transform.position;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -84,7 +86,7 @@ namespace Heaven
         void RotatePlayer()
         {
             if (Input.GetAxisRaw("Horizontal") == 0 && isGrounded) return;
-            else if (Input.GetAxisRaw("Horizontal") == 1 || rb.velocity.x > 0)
+            else if (Input.GetAxisRaw("Horizontal") == 1)
             {
                 sprite.flipX = false;
                 facingDirection = Vector2.left;
@@ -95,7 +97,7 @@ namespace Heaven
                     AwayFromWall(Vector2.right);
                 }
             }
-            else if (Input.GetAxisRaw("Horizontal") == -1 || rb.velocity.x < 0)
+            else if (Input.GetAxisRaw("Horizontal") == -1)
             {
                 sprite.flipX = true;
                 facingDirection = Vector2.right;
@@ -144,8 +146,12 @@ namespace Heaven
             }
             else stopped = false;
 
-            return moveDirection = 
-                    Vector2.right * moveSpeed * Input.GetAxisRaw("Horizontal");
+            if (!endCutscene.cutscene)
+            {
+                return moveDirection =
+                        Vector2.right * moveSpeed * Input.GetAxisRaw("Horizontal");
+            }
+            else return Vector2.zero;
         }
         public void Respawn()
         {

@@ -12,7 +12,7 @@ namespace Heaven
         RaycastHit2D diagonalRight;
         RaycastHit2D diagonalLeft;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             player = GetComponent<Player>();
             playerJump = GetComponent<PlayerJump>();

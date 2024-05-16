@@ -6,12 +6,12 @@ namespace Heaven
     public class RespawnPlayer : MonoBehaviour
     {
         //ATTACH TO CAMERA
-        Player player;
+        PlayerMovement player;
         Collider2D collider;
         // Start is called before the first frame update
         void Start()
         {
-            player = FindObjectOfType<Player>();
+            player = FindObjectOfType<PlayerMovement>();
             collider = GetComponent<Collider2D>();
         }
 

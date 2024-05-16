@@ -4,7 +4,7 @@ namespace Heaven
 {
     public class MovementControl : MonoBehaviour
     {
-        Player player;
+        PlayerMovement player;
         PlayerJump playerJump;
 
         RaycastHit2D hitLeft;
@@ -14,7 +14,7 @@ namespace Heaven
         // Start is called before the first frame update
         void Awake()
         {
-            player = GetComponent<Player>();
+            player = GetComponent<PlayerMovement>();
             playerJump = GetComponent<PlayerJump>();
         }
 

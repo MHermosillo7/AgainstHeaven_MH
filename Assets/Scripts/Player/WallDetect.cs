@@ -4,13 +4,13 @@ namespace Heaven
 {
     public class WallDetect : MonoBehaviour
     {
-        Player player;
+        RotatePlayer rotatePlayer;
         PlayerJump playerJump;
         // Start is called before the first frame update
         void Awake()
         {
-            player = FindObjectOfType<Player>();
             playerJump = FindObjectOfType<PlayerJump>();
+            rotatePlayer = FindObjectOfType<RotatePlayer>();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -19,11 +19,11 @@ namespace Heaven
             {
                 if (name == "Left")
                 {
-                    player.leftWall = true;
+                    rotatePlayer.leftWall = true;
                 }
                 else if (name == "Right")
                 {
-                    player.rightWall = true;
+                    rotatePlayer.rightWall = true;
                 }
             }
         }
@@ -33,8 +33,8 @@ namespace Heaven
             {
                 playerJump.touchWall = false;
                 playerJump.slideWall = false;
-                player.leftWall = false;
-                player.rightWall = false;
+                rotatePlayer.leftWall = false;
+                rotatePlayer.rightWall = false;
 
                 playerJump.ResetJumpBuffer();
                 playerJump.exitWall = true;

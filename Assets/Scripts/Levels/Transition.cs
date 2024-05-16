@@ -3,31 +3,26 @@ using UnityEngine;
 namespace Heaven
 {
     [RequireComponent(typeof(Collider2D))]
-    public class Checkpoint : MonoBehaviour
+    public class Transition : MonoBehaviour
     {
-        PlayerMovement player;
-        Animator animator;
         Collider2D collider;
-
-        public Transform checkpointPos;
-
+        Animator animator;
         // Start is called before the first frame update
         void Awake()
         {
-            player = FindObjectOfType<PlayerMovement>();
-            animator = GetComponent<Animator>();
             collider = GetComponent<Collider2D>();
-            checkpointPos = GetComponentInChildren<Transform>();
             collider.isTrigger = true;
+
+            animator = GameObject.Find("CircleWipe").GetComponent<Animator>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                player.lastCheckpoint = checkpointPos.position;
-                animator.SetTrigger("Open");
+                animator.SetTrigger("Start");
             }
         }
+
     }
 }

@@ -4,12 +4,12 @@ namespace Heaven
 {
     public class GroundDetect : MonoBehaviour
     {
-        Player player;
+        PlayerMovement player;
         PlayerJump playerJump;
         // Start is called before the first frame update
         void Start()
         {
-            player = FindObjectOfType<Player>();
+            player = FindObjectOfType<PlayerMovement>();
             playerJump = FindObjectOfType<PlayerJump>();
         }
 

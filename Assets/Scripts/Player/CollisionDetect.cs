@@ -4,12 +4,12 @@ namespace Heaven
 {
     public class CollisionDetect : MonoBehaviour
     {
-        Player player;
+        PlayerMovement player;
         PlayerJump playerJump;
         // Start is called before the first frame update
         void Awake()
         {
-            player = FindObjectOfType<Player>();
+            player = FindObjectOfType<PlayerMovement>();
             playerJump = FindObjectOfType<PlayerJump>();
         }
 

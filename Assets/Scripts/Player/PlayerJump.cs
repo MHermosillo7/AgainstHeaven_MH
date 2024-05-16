@@ -6,7 +6,8 @@ namespace Heaven
 {
     public class PlayerJump : MonoBehaviour
     {
-        Player player;
+        PlayerMovement player;
+        RotatePlayer rotatePlayer;
         Rigidbody2D rb;
         EndCutscene endCutscene;
 
@@ -32,7 +33,8 @@ namespace Heaven
         // Start is called before the first frame update
         void Awake()
         {
-            player = GetComponent<Player>();
+            player = GetComponent<PlayerMovement>();
+            rotatePlayer = GetComponent<RotatePlayer>();
             rb = GetComponent<Rigidbody2D>();
             endCutscene = FindObjectOfType<EndCutscene>();
             storeJumpsLeft = jumpsLeft;
@@ -45,7 +47,8 @@ namespace Heaven
             {
                 jumpDirection = Vector2.up;
             }
-            else jumpDirection = Vector2.up + player.facingDirection;
+            else if (rotatePlayer.enabled) 
+                jumpDirection = Vector2.up + rotatePlayer.facingDirection;
 
             if (Input.GetKeyDown(KeyCode.Space) && !endCutscene.cutscene)
             {
@@ -67,7 +70,8 @@ namespace Heaven
             {
                 WallSlide();
             }
-            if (player.leftWall || player.rightWall) touchWall = true;
+            if (rotatePlayer.enabled && rotatePlayer.leftWall || 
+                rotatePlayer.enabled && rotatePlayer.rightWall) touchWall = true;
 
             //Control buffer time
             if (jumpBufferTime > 0)
@@ -92,7 +96,7 @@ namespace Heaven
         {
             slideWall = false;
             rb.velocity += ((Vector2.up * 3f) + 
-                (player.facingDirection * horizontalForce)) * jumpForce * 4;
+                (rotatePlayer.facingDirection * horizontalForce)) * jumpForce * 4;
             jumped = true;
             jumpBufferTime = 0;
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Heaven
@@ -8,11 +9,13 @@ namespace Heaven
         Collider2D collider;
         [SerializeField] Transform targetPosition;
         [SerializeField] GameObject[] playerObjects;
+        [SerializeField] List<MonoBehaviour> scripts;
 
         [Header("Player:")]
         GameObject player;
         Rigidbody2D playerRB;
-        Player playerScript;
+        PlayerMovement playerScript;
+        Animator animator;
 
         public bool cutscene;
         private float moveSpeed;
@@ -23,9 +26,20 @@ namespace Heaven
             collider.isTrigger = true;
             player = GameObject.FindGameObjectWithTag("Player");
             playerRB = player.GetComponent<Rigidbody2D>();
-            playerScript = player.GetComponent<Player>();
+            playerScript = player.GetComponent<PlayerMovement>();
+            animator = player.GetComponent<Animator>();
 
+            scripts.Add(player.GetComponent<RotatePlayer>());
+            scripts.Add(FindObjectOfType<CameraMovement>());
+            
             moveSpeed = playerScript.moveSpeed;
+        }
+        private void Update()
+        {
+            if (cutscene)
+            {
+                MovePlayer();
+            }
         }
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -39,18 +53,23 @@ namespace Heaven
                 {
                     playerObjects[i].SetActive(false);
                 }
-                MovePlayer();
+                for (int i = 0; i < scripts.Count; i++)
+                {
+                    scripts[i].enabled = false;
+                }
+                GameObject.Find("RightWall").GetComponent<Collider2D>().enabled = false;
+                GameObject.Find("BlockPlayer").GetComponent<Collider2D>().enabled = false;
+                animator.SetBool("Cutscene", true);
             }
         }
         //Modified copy from player script
         private void MovePlayer()
         {
-            while (player.transform.position.x != targetPosition.position.x)
+            if (player.transform.position.x != targetPosition.position.x)
             {
                 playerRB.velocity =
                 (new Vector2((Vector2.right * moveSpeed).x * moveSpeed, playerRB.velocity.y));
             }
-
         }
     }   
 }

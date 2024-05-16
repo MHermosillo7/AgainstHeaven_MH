@@ -35,7 +35,7 @@ namespace Heaven
             input = Input.GetAxisRaw("Vertical");
             if (gun.targetDistance >= 0 && gun.targetDistance <= maxDistance)
             {
-                gun.targetDistance += input * changeSpeed * Time.deltaTime;
+                gun.targetDistance += -1 * input * changeSpeed * Time.deltaTime;
             }
             else if (gun.targetDistance < 0)
             {

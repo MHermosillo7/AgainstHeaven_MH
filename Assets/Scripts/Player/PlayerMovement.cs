@@ -1,10 +1,9 @@
-using System.Collections;
 using UnityEngine;
 
 namespace Heaven
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Player : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour
     {
         [Header("References:")]
         public Rigidbody2D rb;
@@ -14,8 +13,6 @@ namespace Heaven
         PlayerJump playerJump;
         CameraMovement cameraMovement;
         MovementControl movementControl;
-        SpriteRenderer sprite;
-        GameObject aim;
 
         [Header("Forces:")]
         public float moveSpeed = 0.5f;
@@ -23,15 +20,12 @@ namespace Heaven
 
         [Header("State:")]
         public bool isGrounded;
-        public bool leftWall;
-        public bool rightWall;
         public bool stopped;
         public bool falling;
         public bool canMove;
 
         [Header("Vectors")]
         public Vector3 lastCheckpoint;
-        public Vector2 facingDirection;
         Vector3 playerPos;
         Vector2 moveDirection;
         
@@ -45,10 +39,7 @@ namespace Heaven
             movementControl = GetComponent<MovementControl>();
             cameraMovement = FindObjectOfType<CameraMovement>();
             endCutscene = FindObjectOfType<EndCutscene>();
-            sprite = GetComponent<SpriteRenderer>();
-            aim = GameObject.FindGameObjectWithTag("Aim");
-            
-            Cursor.visible = false;
+
             lastCheckpoint = transform.position;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
@@ -56,21 +47,6 @@ namespace Heaven
         // Update is called once per frame
         void Update()
         {
-            RotatePlayer();
-            CheckFall();
-            //Set velocity limit
-            if (rb.velocity.magnitude >= maxSpeed)
-            {
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-            }
-
-            //Control forces applied to player when
-            //moving horizontally depending on state isGrounded
-            if (rope.isGrappling)
-            {
-                MoveGrapple(GetMoveInput());
-            }
-            else Move(GetMoveInput());
             //Set animator values to player equivalents
             if (animator)
             {
@@ -82,50 +58,19 @@ namespace Heaven
                 animator.SetBool("TouchWall", playerJump.touchWall);
                 animator.SetBool("IsGrappling", rope.isGrappling);
             }
-        }
-        void RotatePlayer()
-        {
-            if (Input.GetAxisRaw("Horizontal") == 0 && isGrounded) return;
-            else if (Input.GetAxisRaw("Horizontal") == 1)
+            //Set velocity limit
+            if (rb.velocity.magnitude >= maxSpeed)
             {
-                sprite.flipX = false;
-                facingDirection = Vector2.left;
-
-                if (leftWall == true && Input.GetAxisRaw("Horizontal") == 1)
-                {
-                    playerJump.slideWall = false;
-                    AwayFromWall(Vector2.right);
-                }
+                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
             }
-            else if (Input.GetAxisRaw("Horizontal") == -1)
+            //Control forces applied to player when
+            //moving horizontally depending on state isGrounded
+            if (rope.isGrappling)
             {
-                sprite.flipX = true;
-                facingDirection = Vector2.right;
-
-                if (rightWall == true && Input.GetAxisRaw("Horizontal") == -1)
-                {
-                    playerJump.slideWall = false;
-                    AwayFromWall(Vector2.left);
-                }
+                MoveGrapple(GetMoveInput());
             }
-            else if (aim && aim.transform.position.x > transform.position.x
-                && !playerJump.touchWall)
-            {
-                sprite.flipX = false;
-            }
-            else if (aim && aim.transform.position.x < transform.position.x
-                && !playerJump.touchWall)
-            {
-                sprite.flipX = true;
-            }
-            else if(playerJump.touchWall && leftWall)
-            {
-                sprite.flipX = true;
-            }
-            else if(playerJump.touchWall && rightWall)
-            {
-                sprite.flipX = false;
-            }
+            else Move(GetMoveInput());
+            CheckFall();
         }
         private void Move(Vector2 direction)
         {
@@ -156,6 +101,7 @@ namespace Heaven
         public void Respawn()
         {
             transform.position = lastCheckpoint;
+            cameraMovement.enabled = true;
             cameraMovement.ResetCamera(lastCheckpoint);
         }
         private void CheckFall()
@@ -165,10 +111,6 @@ namespace Heaven
                 falling = false;
             }
             else falling = true;
-        }
-        private void AwayFromWall(Vector2 direction)
-        {
-            rb.velocity += direction * .25f;
         }
     }
 }

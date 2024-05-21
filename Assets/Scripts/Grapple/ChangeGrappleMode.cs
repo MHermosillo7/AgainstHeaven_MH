@@ -12,29 +12,30 @@ namespace Heaven
             gun = FindObjectOfType<GrapplingGun>();
         }
 
-        // Update is called once per frame
-        void Update()
+        public void ChangeMode()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetMouseButtonDown(0))
             {
-                ChangeMode();
-                animator.SetTrigger("ChangeMode");
+                if (gun.launchType == GrapplingGun.LaunchType.Physics)
+                {
+                    gun.launchType = GrapplingGun.LaunchType.Transform;
+                    gun.launchToPoint = false;
+                    gun.autoConfigureDistance = false;
+                    gun.maxDistance = 7;
+                    animator.SetTrigger("ChangeMode");
+                }
             }
-        }
-
-        void ChangeMode()
-        {
-            if (gun.launchType == GrapplingGun.LaunchType.Physics)
+            if (Input.GetMouseButtonDown(1))
             {
-                gun.launchType = GrapplingGun.LaunchType.Transform ;
-                gun.launchToPoint = false;
-                gun.autoConfigureDistance = false;
+                if(gun.launchType == GrapplingGun.LaunchType.Transform)
+                {
+                    gun.launchType = GrapplingGun.LaunchType.Physics;
+                    gun.launchToPoint = true;
+                    gun.maxDistance = 10;
+                    animator.SetTrigger("ChangeMode");
+                }
             }
-            else
-            {
-                gun.launchType = GrapplingGun.LaunchType.Physics;
-                gun.launchToPoint = true;
-            }
+            
           
         }
     }

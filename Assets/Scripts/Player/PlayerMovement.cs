@@ -9,6 +9,7 @@ namespace Heaven
         public Rigidbody2D rb;
         Animator animator;
         EndCutscene endCutscene;
+        GrapplingGun gun;
         GrapplingRope rope;
         PlayerJump playerJump;
         CameraMovement cameraMovement;
@@ -34,6 +35,7 @@ namespace Heaven
         {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
+            gun = GetComponentInChildren<GrapplingGun>();
             rope = GetComponentInChildren<GrapplingRope>();
             playerJump = GetComponentInChildren<PlayerJump>();
             movementControl = GetComponent<MovementControl>();
@@ -100,9 +102,11 @@ namespace Heaven
         }
         public void Respawn()
         {
+            gun.enabled = false;
             transform.position = lastCheckpoint;
             cameraMovement.enabled = true;
             cameraMovement.ResetCamera(lastCheckpoint);
+            gun.enabled = true;
         }
         private void CheckFall()
         {

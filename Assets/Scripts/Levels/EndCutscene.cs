@@ -15,6 +15,7 @@ namespace Heaven
         GameObject player;
         Rigidbody2D playerRB;
         PlayerMovement playerScript;
+        CameraMovement cameraMovement;
         Animator animator;
 
         public bool cutscene;
@@ -27,6 +28,7 @@ namespace Heaven
             player = GameObject.FindGameObjectWithTag("Player");
             playerRB = player.GetComponent<Rigidbody2D>();
             playerScript = player.GetComponent<PlayerMovement>();
+            cameraMovement = FindObjectOfType<CameraMovement>();
             animator = player.GetComponent<Animator>();
 
             scripts.Add(player.GetComponent<RotatePlayer>());
@@ -67,8 +69,16 @@ namespace Heaven
         {
             if (player.transform.position.x != targetPosition.position.x)
             {
-                playerRB.velocity =
-                (new Vector2((Vector2.right * moveSpeed).x * moveSpeed, playerRB.velocity.y));
+                if(cameraMovement.moveCondition == CameraMovement.MoveCondition.MoveRight)
+                {
+                    playerRB.velocity =
+                    (new Vector2((Vector2.right * moveSpeed).x * moveSpeed, playerRB.velocity.y));
+                }
+                else if(cameraMovement.moveCondition == CameraMovement.MoveCondition.MoveLeft)
+                {
+                    playerRB.velocity =
+                    (new Vector2((Vector2.left * moveSpeed).x * moveSpeed, playerRB.velocity.y));
+                }
             }
         }
     }   

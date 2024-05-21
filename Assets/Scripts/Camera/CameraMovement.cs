@@ -7,14 +7,13 @@ namespace Heaven
         Collider2D collider;    //Collider reference
         PlayerMovement player;  //PlayerMovement reference
 
-        [SerializeField] enum MoveCondition
+        public enum MoveCondition
         {
             MoveLeft,
             MoveRight
         }
-        MoveCondition moveCondition;
+        public MoveCondition moveCondition;
         public bool cameraToPlayer; //Variable to control movement camera
-        string conditionSymbol;
 
         // Start is called before the first frame update
         void Awake()
@@ -22,11 +21,6 @@ namespace Heaven
             //Get collider and PlayerMovement references
             player = FindObjectOfType<PlayerMovement>();
             collider = GetComponent<Collider2D>();
-            if (moveCondition == MoveCondition.MoveLeft)
-            {
-                conditionSymbol = "<";
-            }
-            else conditionSymbol = ">";
         }
         private void FixedUpdate()
         {
@@ -67,7 +61,7 @@ namespace Heaven
 
                 //Move this object to target position by interpolation
                 transform.position = Vector3.Lerp
-                    (transform.position, targetPos, Time.deltaTime * 2);
+                    (transform.position, targetPos, Time.deltaTime * 4);
             }
             //If player's velocity is not greater than 0, do not move
             else cameraToPlayer = false;
@@ -81,13 +75,23 @@ namespace Heaven
         void CheckPlayerPosition()
         {
             //If the player is behind the camera
-            if (player.transform.position.x < transform.position.x)
+            if (player.transform.position.x < transform.position.x && moveCondition == MoveCondition.MoveRight)
             {
                 //Camera cannot move
                 cameraToPlayer = false;
             }
-            //Else, camera can move
-            else cameraToPlayer = true;
+            if (player.transform.position.x > transform.position.x && moveCondition == MoveCondition.MoveRight)
+            {
+                cameraToPlayer = true;
+            }
+            if (player.transform.position.x > transform.position.x && moveCondition == MoveCondition.MoveLeft)
+            {
+                cameraToPlayer = false;
+            }
+            if (player.transform.position.x < transform.position.x && moveCondition == MoveCondition.MoveLeft)
+            {
+                cameraToPlayer = true;
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Heaven
         [Header("Scripts Ref:")]
         public GrapplingRope grappleRope;
         ControlObject controller;
+        ChangeGrappleMode changeMode;
 
         [Header("LayerSettings:")]
         [SerializeField] private bool grappleToAll = false;
@@ -30,7 +31,7 @@ namespace Heaven
 
         [Header("Distance:")]
         [SerializeField] private bool hasMaxDistance = false;
-        [SerializeField] private float maxDistance = 20;
+        [SerializeField] public float maxDistance = 20;
 
         [Header("GameObject:")]
         public GameObject aim;
@@ -53,10 +54,14 @@ namespace Heaven
         [HideInInspector] public Vector2 grapplePoint;
         [HideInInspector] public Vector2 grappleDistanceVector;
 
+        [Header("Variables")]
+        public bool resetGrapple;
+
         private void Awake()
         {
             grappleRope = GetComponentInChildren<GrapplingRope>();
             camera = FindObjectOfType<Camera>();
+            changeMode = FindObjectOfType<ChangeGrappleMode>();
 
             autoConfigureDistance = true;
             grappleRope.enabled = false;
@@ -65,11 +70,12 @@ namespace Heaven
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
+                changeMode.ChangeMode();
                 SetGrapplePoint();
             }
-            else if (Input.GetKey(KeyCode.Mouse0))
+            else if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
             {
                 if (grappleRope.enabled)
                 {
@@ -96,7 +102,7 @@ namespace Heaven
                     }
                 }
             }
-            else if (Input.GetKeyUp(KeyCode.Mouse0))
+            else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1) || resetGrapple)
             {
                 aim.SetActive(true);
                 grappleRope.enabled = false;

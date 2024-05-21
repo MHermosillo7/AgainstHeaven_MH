@@ -5709,7 +5709,7 @@ GameObject:
   - component: {fileID: 797592452}
   - component: {fileID: 797592451}
   - component: {fileID: 797592449}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sign (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6926,7 +6926,7 @@ GameObject:
   - component: {fileID: 1357754011}
   - component: {fileID: 1357754010}
   - component: {fileID: 1357754009}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8986,6 +8986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bc861928a0bfb46bcaf19db1394724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveCondition: 1
   cameraToPlayer: 1
 --- !u!61 &1596473699
 BoxCollider2D:
@@ -9186,7 +9187,7 @@ GameObject:
   - component: {fileID: 1711229460}
   - component: {fileID: 1711229459}
   - component: {fileID: 1711229458}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sign (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10295,7 +10296,7 @@ GameObject:
   - component: {fileID: 2081791862}
   - component: {fileID: 2081791864}
   - component: {fileID: 2081791861}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10686,7 +10687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856832350472704214, guid: 9b636d7ef7896ca4fa5d2c35a4f289e4, type: 3}
       propertyPath: m_Distance
-      value: 9.436263
+      value: 10.318769
       objectReference: {fileID: 0}
     - target: {fileID: 7856832350472704214, guid: 9b636d7ef7896ca4fa5d2c35a4f289e4, type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -10698,7 +10699,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856832350472704214, guid: 9b636d7ef7896ca4fa5d2c35a4f289e4, type: 3}
       propertyPath: m_AutoConfigureDistance
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

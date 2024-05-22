@@ -45,7 +45,7 @@ namespace Heaven
 
                 //Move this object to target position by interpolation
                 transform.position = Vector3.Lerp
-                    (transform.position, targetPos, Time.deltaTime * 2);
+                    (transform.position, targetPos, Time.deltaTime * 2.5f);
             }
             //If player's velocity is not greater than 0, do not move
             else cameraToPlayer = false;
@@ -61,7 +61,7 @@ namespace Heaven
 
                 //Move this object to target position by interpolation
                 transform.position = Vector3.Lerp
-                    (transform.position, targetPos, Time.deltaTime * 4);
+                    (transform.position, targetPos, Time.deltaTime * 2.5f);
             }
             //If player's velocity is not greater than 0, do not move
             else cameraToPlayer = false;

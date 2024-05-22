@@ -102,11 +102,10 @@ namespace Heaven
         }
         public void Respawn()
         {
-            gun.enabled = false;
+            gun.resetGrapple = true;
             transform.position = lastCheckpoint;
             cameraMovement.enabled = true;
             cameraMovement.ResetCamera(lastCheckpoint);
-            gun.enabled = true;
         }
         private void CheckFall()
         {

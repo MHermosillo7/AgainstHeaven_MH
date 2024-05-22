@@ -67,7 +67,11 @@ namespace Heaven
             grappleRope.enabled = false;
             joint2D.enabled = false;
         }
-
+        private void OnEnable()
+        {
+            grappleRope.enabled = false;
+            joint2D.enabled = false;
+        }
         private void Update()
         {
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
@@ -75,7 +79,7 @@ namespace Heaven
                 changeMode.ChangeMode();
                 SetGrapplePoint();
             }
-            else if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+            else if (!resetGrapple && Input.GetMouseButton(0) || !resetGrapple && Input.GetMouseButton(1))
             {
                 if (grappleRope.enabled)
                 {
@@ -104,6 +108,7 @@ namespace Heaven
             }
             else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1) || resetGrapple)
             {
+                resetGrapple = false;
                 aim.SetActive(true);
                 grappleRope.enabled = false;
                 joint2D.enabled = false;

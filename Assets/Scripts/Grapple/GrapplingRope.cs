@@ -5,11 +5,13 @@ namespace Heaven
     public class GrapplingRope : MonoBehaviour
     {
         [Header("General Refernces:")]
-        public GrapplingGun grapplingGun;
-        public LineRenderer lineRenderer;
+        public GrapplingGun grapplingGun;   //GrapplingGun script reference
+        public LineRenderer lineRenderer;   //LineRenderer component reference
 
         [Header("General Settings:")]
-        [SerializeField] private int precision = 40;
+        [SerializeField] private int precision = 40;    //Determines line precision
+
+        //Speed line created changes (value between 0 and 20)
         [Range(0, 20)][SerializeField] private float straightenLineSpeed = 5;
 
         [Header("Rope Animation Settings:")]

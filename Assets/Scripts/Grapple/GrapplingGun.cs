@@ -5,36 +5,45 @@ namespace Heaven
     public class GrapplingGun : MonoBehaviour
     {
         [Header("Scripts Ref:")]
-        public GrapplingRope grappleRope;
-        ControlObject controller;
-        ChangeGrappleMode changeMode;
+        public GrapplingRope grappleRope;   //GrappleRope script reference
+        ControlObject controller;           //ControlObject script reference
+        ChangeGrappleMode changeMode;       //ChangeGrappleMode script reference
 
         [Header("LayerSettings:")]
+        //Control whether to ignore objects layer number
         [SerializeField] private bool grappleToAll = false;
+
+        //Controls what specific layer's objects to grapple only
         [SerializeField] private int grappableLayerNumber = 9;
 
         [Header("Main Camera:")]
-        public Camera camera;
+        public Camera camera;   //Camera reference
 
         [Header("Transform Ref:")]
-        public Transform player;
-        public Transform gunPivot;
-        public Transform firePoint;
+        public Transform player;        //Player Transform reference
+        public Transform gunPivot;      //GunPivot Transform reference
+        public Transform firePoint;     //FirePoint Transform reference
 
         [Header("Physics Ref:")]
-        public SpringJoint2D joint2D;
-        public Rigidbody2D rb;
+        public SpringJoint2D joint2D;   //Player's SpringJoint2D reference
+        public Rigidbody2D rb;          //Player's Rigidbody reference
 
         [Header("Rotation:")]
+        //Whether to rotate component or not
         [SerializeField] private bool rotateOverTime = true;
+        //Speed of rotation of value between 0 and 60
         [Range(0, 60)][SerializeField] private float rotationSpeed = 4;
 
         [Header("Distance:")]
+        //Whether there is max Distance to grapple to
         [SerializeField] private bool hasMaxDistance = false;
+        //Maximum distance to grapple to objects
         [SerializeField] public float maxDistance = 20;
 
         [Header("GameObject:")]
-        public GameObject aim;
+        public GameObject aim;  //Aim Component reference
+
+        //Controls whether grapple using Physics or Transform systems
         public enum LaunchType
         {
             Transform,
@@ -42,45 +51,68 @@ namespace Heaven
         }
 
         [Header("Launching:")]
+        //Whether move player to grappled object
         [SerializeField] public bool launchToPoint = true;
+
+        //Variable to store type of system used for moving player
         [SerializeField] public LaunchType launchType = LaunchType.Physics;
+
+        //Speed to move player when grappling
         [SerializeField] private float launchSpeed = 1;
 
         [Header("No Launch To Point")]
+        //Whether control exact distance between object grappled and player
         [SerializeField] public bool autoConfigureDistance = false;
+
+        //Distance between grappled object and player
         [SerializeField] public float targetDistance = 3;
+
+        //Firing Frequency
         [SerializeField] private float targetFrequency = 1;
 
+        //Point where object was grappled
         [HideInInspector] public Vector2 grapplePoint;
+
+        //Store distance between object hit and player
         [HideInInspector] public Vector2 grappleDistanceVector;
 
         [Header("Variables")]
+        //Control whether stop all grapple related methods running
         public bool resetGrapple;
 
         private void Awake()
         {
+            //Get GrapplingRope script in children
+            //Find Camera object in scene
+            //Find ChangeGrappleMode script
             grappleRope = GetComponentInChildren<GrapplingRope>();
             camera = FindObjectOfType<Camera>();
             changeMode = FindObjectOfType<ChangeGrappleMode>();
 
-            autoConfigureDistance = true;
-            grappleRope.enabled = false;
-            joint2D.enabled = false;
+            autoConfigureDistance = true;   //Enable automatic configured distance
+            grappleRope.enabled = false;    //Disable GrapplingRope script
+            joint2D.enabled = false;        //Disable SpringJoint2D component
         }
+        //When script is enabled
         private void OnEnable()
         {
-            grappleRope.enabled = false;
-            joint2D.enabled = false;
+            grappleRope.enabled = false;    //Disable GrapplingRope script 
+            joint2D.enabled = false;        //Disable SpringJoint2D component
         }
         private void Update()
         {
+            //If mouse right-click or lefft-click ar pressed
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
             {
-                changeMode.ChangeMode();
-                SetGrapplePoint();
+                changeMode.ChangeMode();    //Call for ChangeMode method
+                SetGrapplePoint();          //Call SetGrapplePOint method
             }
-            else if (!resetGrapple && Input.GetMouseButton(0) || !resetGrapple && Input.GetMouseButton(1))
+            //Else if right-click or left-click are held down and
+            //resetGrapple is false
+            else if (!resetGrapple && Input.GetMouseButton(0) 
+                || !resetGrapple && Input.GetMouseButton(1))
             {
+                //If GrapplingRope is enabled
                 if (grappleRope.enabled)
                 {
                     RotateGun(grapplePoint, false);
@@ -88,7 +120,8 @@ namespace Heaven
                 }
                 else
                 {
-                    Vector2 mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
+                    Vector2 mousePos = camera.ScreenToWorldPoint(
+                        Input.mousePosition);
                     RotateGun(mousePos, true);
                 }
 
@@ -96,17 +129,18 @@ namespace Heaven
                 {
                     if (launchType == LaunchType.Transform)
                     {
-                        Vector2 firePointDistnace = 
+                        Vector2 firePointDistnace =
                             firePoint.position - player.localPosition;
 
                         Vector2 targetPos = grapplePoint - firePointDistnace;
-                        player.position = 
-                            Vector2.Lerp(player.position, targetPos, 
+                        player.position =
+                            Vector2.Lerp(player.position, targetPos,
                             Time.deltaTime * launchSpeed);
                     }
                 }
             }
-            else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1) || resetGrapple)
+            else if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1) 
+                || resetGrapple)
             {
                 resetGrapple = false;
                 aim.SetActive(true);
@@ -137,8 +171,8 @@ namespace Heaven
 
             if (rotateOverTime && allowRotationOverTime)
             {
-                gunPivot.rotation = Quaternion.Lerp(gunPivot.rotation, 
-                    Quaternion.AngleAxis(angle, Vector3.forward), 
+                gunPivot.rotation = Quaternion.Lerp(gunPivot.rotation,
+                    Quaternion.AngleAxis(angle, Vector3.forward),
                     Time.deltaTime * rotationSpeed);
             }
             else
@@ -149,7 +183,8 @@ namespace Heaven
 
         void SetGrapplePoint()
         {
-            Vector2 distanceVector = camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
+            Vector2 distanceVector = 
+                camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
 
             if (Physics2D.Raycast(firePoint.position, distanceVector.normalized))
             {
@@ -162,7 +197,7 @@ namespace Heaven
                         GetComponent<ControlObject>();
 
                         grapplePoint = _hit.point;
-                        grappleDistanceVector = 
+                        grappleDistanceVector =
                             grapplePoint - (Vector2)gunPivot.position;
                         grappleRope.enabled = true;
                     }

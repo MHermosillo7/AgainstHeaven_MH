@@ -9,6 +9,7 @@ namespace Heaven
         Collider2D collider;                //Collider reference
         SpriteRenderer spriteRenderer;      //Sprite Renderer reference
         [SerializeField] float appearRate;  //Time to re-appear
+
         // Start is called before the first frame update
         void Awake()
         {

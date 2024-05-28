@@ -15,7 +15,8 @@ namespace Heaven
         [Range(0, 20)][SerializeField] private float straightenLineSpeed = 5;
 
         [Header("Rope Animation Settings:")]
-        public AnimationCurve ropeAnimationCurve;    //Reference AnimationCurve of rope
+        //Reference AnimationCurve of rope
+        public AnimationCurve ropeAnimationCurve;    
 
         //Value between .01 and 4 representing starting wave size
         [Range(0.01f, 4)][SerializeField] private float StartWaveSize = 2;
@@ -23,7 +24,6 @@ namespace Heaven
         float waveSize = 0;
 
         [Header("Rope Progression:")]
-        
         //Reference AnimationCurve of rope progression
         public AnimationCurve ropeProgressionCurve;    
 
@@ -35,7 +35,7 @@ namespace Heaven
         [SerializeField] bool startTimer;  //Whether start timer of time grappled
         public bool isGrappling = true;    //Whether player is grappling
 
-        bool strightLine = true;            //Whether rope should be a straight line
+        bool strightLine = true;           //Whether rope should be a straight line
 
         private void Awake()
         {
@@ -48,10 +48,13 @@ namespace Heaven
         {
             //Ropes rate of movement equals 0
             moveTime = 0;
+
             //LineRenderer's count position equals precision variable
             lineRenderer.positionCount = precision;
+
             //Wave size equals starting wave size
             waveSize = StartWaveSize;
+
             //Rope is not a straight line
             strightLine = false;
 
@@ -65,8 +68,9 @@ namespace Heaven
         private void OnDisable()
         {
             //Disable LineRenderer
-            //Player is not grappling
             lineRenderer.enabled = false;
+
+            //Player is not grappling
             isGrappling = false;
         }
 
@@ -83,8 +87,10 @@ namespace Heaven
         private void Update()
         {
             //Add time passed to rope's rate of movement
-            //And call for DrawRope method
             moveTime += Time.deltaTime;
+
+
+            //Call for DrawRope method
             DrawRope();
         }
 
@@ -93,8 +99,10 @@ namespace Heaven
             //If rope should not be straight
             if (!strightLine)
             {
-                //If LineRenderer's one to last position equals grappled point's x coordinate
-                if (lineRenderer.GetPosition(precision - 1).x == grapplingGun.grapplePoint.x)
+                //If LineRenderer's one to last position
+                //equals grappled point's x coordinate
+                if (lineRenderer.GetPosition(precision - 1).x 
+                    == grapplingGun.grapplePoint.x)
                 {
                     //Rope should be straight
                     strightLine = true;
@@ -113,10 +121,13 @@ namespace Heaven
                 {
                     //Call GrapplingGun's Grapple method
                     grapplingGun.Grapple();
+
                     //Player is grappling
                     isGrappling = true;
+
                     //Start timer to record time grappled
                     startTimer = true;
+
                     //Call GrapplingTimer method
                     GrapplingTimer();
                 }
@@ -126,6 +137,7 @@ namespace Heaven
                     //Wave size is decreased at a frame independant rate
                     //time speed to straighten line
                     waveSize -= Time.deltaTime * straightenLineSpeed;
+
                     //Call DrawRopeWaves method
                     DrawRopeWaves();
                 }
@@ -137,7 +149,8 @@ namespace Heaven
 
                     //If LineRenderer's amount of positions is not equal to 2
                     //Its amount of positions equal 2
-                    if (lineRenderer.positionCount != 2) { lineRenderer.positionCount = 2; }
+                    if (lineRenderer.positionCount != 2) 
+                    { lineRenderer.positionCount = 2; }
 
                     //Call DrawRopeNoWaves method
                     DrawRopeNoWaves();
@@ -153,9 +166,9 @@ namespace Heaven
                 //Create float to store number of loop divided by precision minus 1
                 float delta = (float)i / ((float)precision - 1f);
 
-                //Offset equals perpendicular vector to GrapplingGun's distance vector direction
-                //times the evaluated RopeAnimationCurve number relating to previous float
-                //times size of wave
+                //Offset equals perpendicular vector to GrapplingGun's
+                //distance vector direction times the evaluated RopeAnimationCurve
+                //number relating to previous float times size of wave
                 Vector2 offset = Vector2.Perpendicular(
                 grapplingGun.grappleDistanceVector).normalized 
                 * ropeAnimationCurve.Evaluate(delta) * waveSize;
@@ -167,9 +180,10 @@ namespace Heaven
                 grapplingGun.firePoint.position, grapplingGun.grapplePoint, 
                 delta) + offset;
 
-                //Current position equals interpolation between fire point's position
-                //and target position at the rate of (RopeProgressionCurve's value
-                //at moveTime) times RopeProgressionSpeed
+                //Current position equals interpolation between fire point's
+                //position and target position at the rate of
+                //(RopeProgressionCurve's value at moveTime)
+                //times RopeProgressionSpeed
                 Vector2 currentPosition = Vector2.Lerp(
                 grapplingGun.firePoint.position, targetPosition, 
                 ropeProgressionCurve.Evaluate(moveTime) * ropeProgressionSpeed);

@@ -83,10 +83,12 @@ namespace Heaven
         private void Awake()
         {
             //Get GrapplingRope script in children
-            //Find Camera object in scene
-            //Find ChangeGrappleMode script
             grappleRope = GetComponentInChildren<GrapplingRope>();
+
+            //Find Camera object in scene
             camera = FindObjectOfType<Camera>();
+
+            //Find ChangeGrappleMode script
             changeMode = FindObjectOfType<ChangeGrappleMode>();
 
             autoConfigureDistance = true;   //Enable automatic configured distance
@@ -107,6 +109,7 @@ namespace Heaven
                 changeMode.ChangeMode();    //Call for ChangeMode method
                 SetGrapplePoint();          //Call SetGrapplePOint method
             }
+
             //Else if right-click or left-click are held down and
             //resetGrapple is false
             else if (!resetGrapple && Input.GetMouseButton(0) 
@@ -121,6 +124,7 @@ namespace Heaven
                     //Deactivate aim game object
                     aim.SetActive(false);
                 }
+
                 //Else GrapplingRope is diabled
                 else
                 {
@@ -195,7 +199,8 @@ namespace Heaven
 
             //Create float to store angle of distance vector 
             //after converted to radians and back to degrees
-            float angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * 
+                Mathf.Rad2Deg;
 
             //If gun pivot should rotate over time
             if (rotateOverTime && allowRotationOverTime)
@@ -225,15 +230,18 @@ namespace Heaven
             if (Physics2D.Raycast(firePoint.position, distanceVector.normalized))
             {
                 //Instantiate a RaycastHit with previous values in if statement
-                RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized);
+                RaycastHit2D _hit = Physics2D.
+                    Raycast(firePoint.position, distanceVector.normalized);
 
                 //If object hit's layer number equals the grappable layer number
                 //or player can grapple to all layer objects
-                if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
+                if (_hit.transform.gameObject.layer == grappableLayerNumber 
+                    || grappleToAll)
                 {
-                    //If distance between object hit and fire point is less than or equal to max distance
-                    //or there is no maximum distance
-                    if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistance || !hasMaxDistance)
+                    //If distance between object hit and fire point is
+                    //less than or equal to max distance or no maximum distance
+                    if (Vector2.Distance(_hit.point, firePoint.position) 
+                        <= maxDistance || !hasMaxDistance)
                     {
                         //Get reference of hit object's ControlObject script
                         controller = _hit.transform.gameObject.
@@ -298,10 +306,13 @@ namespace Heaven
                         //SpringJoint2D's anchor equals grappled point
                         joint2D.connectedAnchor = grapplePoint;
 
-                        //Distance Vector equals fire point position minus player's
-                        Vector2 distanceVector = firePoint.position - player.position;
+                        //Distance Vector equals
+                        //fire point position minus player's
+                        Vector2 distanceVector = 
+                            firePoint.position - player.position;
 
-                        //SpringJoint2D's distance equals magnitude of previous vector
+                        //SpringJoint2D's distance equals
+                        //magnitude of previous vector
                         //It frequency equals speed of launch
                         //And enable SpringJoint2D component
                         joint2D.distance = distanceVector.magnitude;

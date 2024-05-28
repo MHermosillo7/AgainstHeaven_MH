@@ -5,7 +5,7 @@ namespace Heaven
     public class BetterJump : MonoBehaviour
     {
         [SerializeField] float fallMultiplier = 2.5f;   //Applied downward force
-        [SerializeField] float lowJumpMultiplier = 2f;  //Force lightly pressing jump
+        [SerializeField] float lowJumpMultiplier = 2f;  //Force lightly press button
 
         Rigidbody2D rb;                                 //Rigidbody reference
         // Start is called before the first frame update
@@ -25,6 +25,7 @@ namespace Heaven
                 rb.velocity += Vector2.up * Physics2D.gravity.y * 
                     (fallMultiplier - 1) * Time.deltaTime;
             }
+
             //If the object is jumping but button does not stay pressed
             else if (rb.velocity.y > 0 && !Input.GetKey(KeyCode.Space))
             {

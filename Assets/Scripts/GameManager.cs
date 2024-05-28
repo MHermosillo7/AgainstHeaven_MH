@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
         {
             //This is the Game Manager instance
             instance = this;
+
             //Dont Destroy this game object when
             //loading another scene
             DontDestroyOnLoad(this);
@@ -29,10 +30,23 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(newSceneName);
     }
-    //Load Scene corresponding to next in index nummber
-    //But keep current scene playing while next one is loading
     public static void NextLevel()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        //Get index number of next scene
+        int buildIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        //If there is another scene after this one
+        if(buildIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            //Load Scene corresponding to next in index nummber
+            //But keep current scene playing while next one is loading
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+
+        //Else, load title screen
+        else
+        {
+            SceneManager.LoadSceneAsync(1);
+        }
     }
 }

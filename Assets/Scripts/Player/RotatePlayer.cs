@@ -48,6 +48,7 @@ namespace Heaven
         {
             //If there is no input and player is grounded, do nothing
             if (Input.GetAxisRaw("Horizontal") == 0 && player.isGrounded) return;
+
             //If input corresponds right direction
             else if (Input.GetAxisRaw("Horizontal") == 1)
             {
@@ -71,6 +72,7 @@ namespace Heaven
             {
                 //Flip sprite along x plane
                 sprite.flipX = true;
+
                 //Facing direction equals right vector
                 facingDirection = Vector2.right;
 
@@ -80,6 +82,7 @@ namespace Heaven
                 {
                     //Player is not sliding down a wall
                     playerJump.slideWall = false;
+
                     //Call AwayFromWall method with left vector as input
                     AwayFromWall(Vector2.left);
                 }

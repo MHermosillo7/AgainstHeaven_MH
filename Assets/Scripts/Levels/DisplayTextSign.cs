@@ -10,6 +10,7 @@ namespace Heaven
         [SerializeField] Text text;             //Text reference
         [SerializeField] string displayText;    //String to set displayed text
         [SerializeField] GameObject panel;      //Panel game object
+
         // Start is called before the first frame update
         void Awake()
         {

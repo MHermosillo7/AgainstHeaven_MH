@@ -6,6 +6,7 @@ namespace Heaven
     {
         PlayerMovement player;    //PlayerMovement script reference
         PlayerJump playerJump;    //PlayerJump script reference
+
         // Start is called before the first frame update
         void Awake()
         {
@@ -30,8 +31,10 @@ namespace Heaven
                 {
                     //Jump buffer equals 0
                     playerJump.jumpBufferTime = 0;
+
                     //Player is not sliding against wall
                     playerJump.slideWall = false;
+
                     //Call PlayerJump's WallJump script
                     playerJump.WallJump();
                 }
@@ -41,8 +44,10 @@ namespace Heaven
             {
                 //Player is grounded
                 player.isGrounded = true;
+
                 //Player has not jumped
                 playerJump.jumped = false;
+
                 //Reset amount of jumps left
                 playerJump.jumpsLeft = playerJump.storeJumpsLeft;
 
@@ -51,6 +56,7 @@ namespace Heaven
                 {
                     //Jump buffer time equals 0
                     playerJump.jumpBufferTime = 0;
+
                     //Call PlayerJump's Jump method with
                     //integer 1 as input
                     playerJump.Jump(1f);
@@ -80,6 +86,7 @@ namespace Heaven
             {
                 //Player is not touching a wall
                 playerJump.touchWall = false;
+
                 //Player is not sliding down a wall
                 playerJump.slideWall = false;
             }

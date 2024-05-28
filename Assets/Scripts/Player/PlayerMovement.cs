@@ -8,34 +8,45 @@ namespace Heaven
         [Header("References:")]
         //Rigidbody reference
         public Rigidbody2D rb; 
+
         //Animator reference
         Animator animator;
+
         //EndCutscene script reference
         EndCutscene endCutscene;
+
         //GrapplingGun script reference
         GrapplingGun gun;
+
         //GrapplingRope script reference
         GrapplingRope rope;
+
         //PlayerJump script reference
         PlayerJump playerJump;
+
         //CameraMovement script reference
         CameraMovement cameraMovement;
+
         //MovementControl script reference
         MovementControl movementControl;
 
         [Header("Forces:")]
         //Speed of movement
         public float moveSpeed = 0.5f;
+
         //Maximum possible speed of movement
         [SerializeField] float maxSpeed = 10f;
 
         [Header("State:")]
         //Whether Player is grounded
-        public bool isGrounded;        
+        public bool isGrounded;  
+        
         //Whether Player has stopped
         public bool stopped;
+
         //Whether Player is falling
         public bool falling;
+
         //Whether Player can move
         //Redundant I believe, this is
         public bool canMove;
@@ -43,8 +54,10 @@ namespace Heaven
         [Header("Vectors")]
         //Records Last Checkpoint to respawn to
         public Vector3 lastCheckpoint;
+
         //Tracks Player position
         Vector3 playerPos;
+
         //Records direction to move to
         Vector2 moveDirection;
         
@@ -53,25 +66,33 @@ namespace Heaven
         {
             //Get Rigidbody component
             rb = GetComponent<Rigidbody2D>();
+
             //Get Animator component
             animator = GetComponent<Animator>();
+
             //Get GrapplingGun script in children
             gun = GetComponentInChildren<GrapplingGun>();
+
             //Get GrapplingRope script in children
             rope = GetComponentInChildren<GrapplingRope>();
+
             //Get PlayerJump script in children
             //Weird, I believe it is not in children but
             //in same Game Object [maybe change it]
             playerJump = GetComponentInChildren<PlayerJump>();
+
             //Get MovementControl script
             movementControl = GetComponent<MovementControl>();
+
             //Find CameraMovement script
             cameraMovement = FindObjectOfType<CameraMovement>();
+
             //Find EndCutscene script
             endCutscene = FindObjectOfType<EndCutscene>();
 
             //Last Checkpoint equals player's position at that moment
             lastCheckpoint = transform.position;
+
             //Constraint Player's Rotation
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
@@ -103,6 +124,7 @@ namespace Heaven
             }
             //Else call Move method with GetMoveInput as input
             else Move(GetMoveInput());
+
             //Call CheckFall method
             CheckFall();
         }
@@ -148,10 +170,13 @@ namespace Heaven
         {
             //Make GrapplingGun's resetGrapple variable true
             gun.resetGrapple = true;
+
             //CHange Player's position to last checkpoint's
             transform.position = lastCheckpoint;
+
             //Enable CameraMovement script
             cameraMovement.enabled = true;
+
             //ResetCamera position to last checkpoint's
             //by calling Reset Camera
             cameraMovement.ResetCamera(lastCheckpoint);

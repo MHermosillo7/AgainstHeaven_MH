@@ -6,6 +6,7 @@ namespace Heaven
     {
         [SerializeField] GrapplingGun gun;      //GrapplingGun script reference
         [SerializeField] Animator animator;     //Animator component reference
+
         // Start is called before the first frame update
         void Awake()
         {

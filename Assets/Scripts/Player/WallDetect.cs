@@ -51,6 +51,7 @@ namespace Heaven
                 //This function could be deleted, 
                 //it is redundant
                 playerJump.ResetJumpBuffer();
+
                 //Player has exited a wall
                 //[Redundant too]
                 playerJump.exitWall = true;

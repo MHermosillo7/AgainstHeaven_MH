@@ -6,7 +6,8 @@ namespace Heaven
     {
         GrapplingGun gun;       //GrapplingGun script reference
         GrapplingRope rope;     //GrapplingRope script reference
-        [SerializeField] float changeSpeed = 1f;    //Speed to change joint2D length
+
+        [SerializeField] float changeSpeed = 1f;    //Speed change joint2D length
         [SerializeField] float maxDistance = 5f;    //Maximum distance of joint2D
         private float input;                        //Store vertical input
 
@@ -48,12 +49,14 @@ namespace Heaven
                 //input times change speed times -1
                 gun.targetDistance += -1 * input * changeSpeed * Time.deltaTime;
             }
+
             //Else if targetDistance is less than 0
             else if (gun.targetDistance < 0)
             {
                 //Make target Distance 0
                 gun.targetDistance = 0;
             }
+
             //Else make target distance into maxDistance
             else
             {

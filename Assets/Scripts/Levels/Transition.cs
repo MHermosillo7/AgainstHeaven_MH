@@ -6,7 +6,8 @@ namespace Heaven
     public class Transition : MonoBehaviour
     {
         Collider2D collider;    //Collider reference
-        Animator animator;      //Animator reference
+        Animator animator;      //Animator reference]
+
         // Start is called before the first frame update
         void Awake()
         {
@@ -26,6 +27,14 @@ namespace Heaven
             {
                 animator.SetTrigger("Start");
             }
+        }
+        //Set trigger for animator
+        //Allows for triggering animation 
+        //in title screen and others
+        //where there is no player
+        public void ExecuteAnimation()
+        {
+            animator.SetTrigger("Start");
         }
 
     }

@@ -3,7 +3,7 @@ Although the first three levels have been completed, including the title and scr
 For example, the third level features a difficulty spike too high for even me, the creator, to succesfully clear with ease. Hazards should be minimized.
 
 I should also add more visual cues such as to where the player should move. The second level is confusing in this since there is no clear indication
-at the start of whether it even is a different lvel or the same one.
+at the start of whether it even is a different level or the same one.
 
-I should add a reward system, something to incentivise the player to attempt riskier platforming parts. Examples include, timers, coins or strawberries such as 
-Mario and Celeste, amon other.
+I should add a reward system, something to incentivise the player to attempt riskier platforming parts. Examples include, timers, coins or strawberries of games such as
+Mario and Celeste, among others.

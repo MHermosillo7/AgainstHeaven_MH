@@ -1,9 +1,36 @@
-Although the first three levels have been completed, including the title and scredits screens, there are still things left to improve.
+# Against Heaven | Skyward
 
-For example, the third level features a difficulty spike too high for even me, the creator, to succesfully clear with ease. Hazards should be minimized.
+## Overview
 
-I should also add more visual cues such as to where the player should move. The second level is confusing in this since there is no clear indication
-at the start of whether it even is a different level or the same one.
+This game features three simple platforming levels where the user is able to jump, wall jump, and use a hook to bring themselves to an object or swing from it.
 
-I should add a reward system, something to incentivise the player to attempt riskier platforming parts. Examples include, timers, coins or strawberries of games such as
-Mario and Celeste, among others.
+## Tech Stack
+
+- Unity
+- Visual Studio
+
+## Features
+
+- Three distinct levels of increasing difficulty
+- Grappling Hook (pull or swing)
+- Wall/Regular Jump
+
+<!--
+## Demo
+
+-->
+## Screenshots
+
+<img src="https://raw.githubusercontent.com/MHermosillo7/AgainstHeaven_MH/refs/heads/main/AgainstHeaven_DemoImage.png" width=50% height=50%>
+
+## Art Credits
+
+- Zeyu Ren 任泽宇
+- Buch
+
+## To Add in Future Update
+
+- Reward System
+- Visual Cues for move direction
+- Adjust Difficulty Spike
+- Fix movement in builds
